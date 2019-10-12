@@ -1,3 +1,5 @@
+# Update - I expect v1 of the print monitor to be uploaded in a few days. This will monitor 1 print only.
+
 # 3d-print-monitor
 OctoPrint monitor for 320x240 TFT displays and a ESP8266 processor. Built with Visual Studio Code and PlatformIO.
 
