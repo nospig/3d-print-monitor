@@ -54,6 +54,7 @@ Development was done on NodeMCU and Wemos D1 Mini boards. Any TFT with a 320x240
     Mini D5  -> TFT SCK  
     Mini D6  -> TFT MISO (only required if screen grab feature required)  
     Mini D7  -> TFT MOSI  
+    Mini D8  -> TFT CS
     Mini D3  -> TFT DC  
 
 Connect VCC and GND on the TFT to the respective pins on the Mini or NodeMCU.
