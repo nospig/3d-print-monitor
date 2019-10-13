@@ -1,5 +1,3 @@
-# Update - I expect v1 of the print monitor to be uploaded in a few days. This will monitor 1 print only.
-
 # 3d-print-monitor
 OctoPrint monitor for 320x240 TFT displays and a ESP8266 processor. Built with Visual Studio Code and PlatformIO.
 
@@ -12,14 +10,14 @@ OctoPrint monitor for 320x240 TFT displays and a ESP8266 processor. Built with V
 * 2 different display modes. All display modes show WiFi strength, clock with date and time and use colourful icons.
   * Detailed current weather from OpenWeather.
   * OctoPrint monitor mode.
-* All settings controlled through a web interface which also displays sensor readings and weather conditions.
-* Uses OpenWeather API for current weather and forecasts. See note below.
+* All settings controlled through a web interface.
+* Uses OpenWeather API for retrieving current weather.
 * Can perform screengrabs and send them to a Processing sketch over serial connection.
-* Password protected OTA updates enabled through PlatformIO (not through web interface).
+* Password protected OTA updates enabled through PlatformIO (not through the web interface).
 
 ## API
 
-Uses the [OpenWeather](https://openweathermap.org/api) API for current conditions.
+Uses the [OpenWeather](https://openweathermap.org/api) API for current conditions. You will need an API key and the ID of the location to display weather.
 
 ## Required Libraries
 
@@ -40,7 +38,7 @@ Built using the following hardware from AliExpress.
 [Wemos D1 mini ESP8266 board](https://www.aliexpress.com/item/32651747570.html)  
 [2.8" TFT non touch version](https://www.aliexpress.com/item/33012793224.html)  
 
-Development was done on a NodeMCU board. Any TFT with a 320x240 display that works with the TFT_eSPI library should work but has not been tested.
+Development was done on NodeMCU and Wemos D1 Mini boards. Any TFT with a 320x240 display that works with the TFT_eSPI library should work but has not been tested.
 
 ## Wiring
 
@@ -68,7 +66,7 @@ Open User_Setup.h in the TFT_eSPI library folder and set the following to suit y
 
 ## UserSettings.h
 
-Contains defines for MD5 password hash if you want to use OTA for future updates. The SCREEN_ROTATION define should be set depending on if you screen is pins up or pins down in it's case.
+Contains defines for MD5 password hash if you want to use OTA for future updates. The SCREEN_ROTATION define should be set depending on if your screen is pins up or pins down in it's case.
 
 ## OTA updates
 
