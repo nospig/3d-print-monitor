@@ -50,7 +50,7 @@ Development was done on NodeMCU and Wemos D1 Mini boards. Any TFT with a 320x240
 ## Wiring
 
     Mini RST -> TFT RST  
-    Mini D0  -> TFT LED (for display brightness and on/off control, hope this is OK, just connect TFT LED to VCC if worried)
+    Mini D0  -> TFT LED (for display brightness control, hope this is OK, just connect TFT LED to VCC if worried)
     Mini D5  -> TFT SCK  
     Mini D6  -> TFT MISO (only required if screen grab feature required)  
     Mini D7  -> TFT MOSI  
