@@ -12,7 +12,6 @@
 #include "DisplayTFT.h"
 #include "WebServer.h"
 #include "OctoPrintMonitor.h"
-#include "Secrets.h"   
 #include <FS.h>
 
 // globals
