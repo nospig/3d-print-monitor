@@ -15,6 +15,13 @@ OctoPrint monitor for 320x240 TFT displays and a ESP8266 processor. Built with V
 * Can perform screengrabs and send them to a Processing sketch over serial connection.
 * Password protected OTA updates enabled through PlatformIO (not through the web interface).
 
+## Example screens
+
+![Screenshot](devdata/Screenshots/screenshot_20938.png)
+![Screenshot](devdata/Screenshots/screenshot_14447.png)
+![Screenshot](devdata/Screenshots/screenshot_2024206.png)
+![Screenshot](devdata/Screenshots/screenshot_2974628.png)
+
 ## API
 
 Uses the [OpenWeather](https://openweathermap.org/api) API for current conditions. You will need an API key and the ID of the location to display weather.
