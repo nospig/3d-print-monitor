@@ -77,7 +77,7 @@ Password protected OTA updates enabled. Set the MD5 hash of your prefered passwo
     [password]
     upload_password = xxxxx
     
-Replace xxxxx with the plain text version of your MD5 hash set above.
+Replace xxxxx with the plain text version of your MD5 hash set above. [MD5 Generator.](https://www.miraclesalad.com/webtools/md5.php)
 
 ## OctoPrint Monitor
 
