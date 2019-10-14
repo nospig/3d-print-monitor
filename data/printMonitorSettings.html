@@ -45,30 +45,29 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <form action="/addnewPrinter.html">
-                            <input type="hidden" name="printerID" value="1">
                             <div class="form-group">
                                 <label for="octoPrintDisplayName">Printer display name (not an OctoPrint setting, e.g. Ender 3)</label>
-                                <input type="text" class="form-control" id="octoPrintDisplayName" value="%PRINTMONITORDISPLAYNAME%" placeholder="Display name" maxlength="64" name="octoPrintDisplayName">
+                                <input type="text" class="form-control" id="octoPrintDisplayName" value="" placeholder="Display name" maxlength="64" name="octoPrintDisplayName">
                             </div>
                             <div class="form-group">
                                 <label for="octoPrintUrl">OctoPrint address (don't include http://):</label>
-                                <input type="text" class="form-control" id="octoPrintUrl" value="%PRINTMONITORURL%" placeholder="OctoPrint address" maxlength="64" name="octoPrintUrl">
+                                <input type="text" class="form-control" id="octoPrintUrl" value="" placeholder="OctoPrint address" maxlength="64" name="octoPrintUrl">
                             </div>
                             <div class="form-group">
                                 <label for="octoPrintPort">Port:</label>
-                                <input type="number" class="form-control" id="octoPrintPort" value="%PRINTMONITOPORT%" placeholder="Port number" name="octoPrintPort">
+                                <input type="number" class="form-control" id="octoPrintPort" value="" placeholder="Port number" name="octoPrintPort">
                             </div>
                             <div class="form-group">
                                 <label for="octoPrintUsername">User name:</label>
-                                <input type="text" class="form-control" id="octoPrintUsername" value="%PRINTMONITORUSERNAME%" placeholder="User name" maxlength="64" name="octoPrintUsername">
+                                <input type="text" class="form-control" id="octoPrintUsername" value="" placeholder="User name" maxlength="64" name="octoPrintUsername">
                             </div>
                             <div class="form-group">
                                 <label for="octoPrintPassword">Password:</label>
-                                <input type="password" class="form-control" id="octoPrintPassword" value="%PRINTMONITORPASSWORD%" placeholder="Password" maxlength="64" name="octoPrintPassword">
+                                <input type="password" class="form-control" id="octoPrintPassword" value="" placeholder="Password" maxlength="64" name="octoPrintPassword">
                             </div>
                             <div class="form-group">
                                 <label for="octoPrintAPIKey">OctoPrint API Key:</label>
-                                <input type="text" class="form-control" id="octoPrintAPIKey" value="%PRINTMONITORAPIKEY%" placeholder="API key" name="octoPrintAPIKey">
+                                <input type="text" class="form-control" id="octoPrintAPIKey" value="" placeholder="API key" name="octoPrintAPIKey">
                             </div>
                             <div class="form-check form-group">
                                 <label class="form-check-label" for="check1">
@@ -77,6 +76,59 @@
                             </div>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                     <!-- Modal footer -->
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit printer modal -->
+        <div class="modal" id="editPrinterModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Printer</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+            
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form action="/editPrinter.html">
+                            <input type="hidden" name="printerId" value="WRONG">
+                            <div class="form-group">
+                                <label for="octoPrintDisplayName">Printer display name (not an OctoPrint setting, e.g. Ender 3)</label>
+                                <input type="text" class="form-control" id="octoPrintDisplayName" placeholder="Display name" maxlength="64" name="octoPrintDisplayName">
+                            </div>
+                            <div class="form-group">
+                                <label for="octoPrintUrl">OctoPrint address (don't include http://):</label>
+                                <input type="text" class="form-control" id="octoPrintUrl" placeholder="OctoPrint address" maxlength="64" name="octoPrintUrl">
+                            </div>
+                            <div class="form-group">
+                                <label for="octoPrintPort">Port:</label>
+                                <input type="number" class="form-control" id="octoPrintPort" placeholder="Port number" name="octoPrintPort">
+                            </div>
+                            <div class="form-group">
+                                <label for="octoPrintUsername">User name:</label>
+                                <input type="text" class="form-control" id="octoPrintUsername" placeholder="User name" maxlength="64" name="octoPrintUsername">
+                            </div>
+                            <div class="form-group">
+                                <label for="octoPrintPassword">Password:</label>
+                                <input type="password" class="form-control" id="octoPrintPassword" placeholder="Password" maxlength="64" name="octoPrintPassword">
+                            </div>
+                            <div class="form-group">
+                                <label for="octoPrintAPIKey">OctoPrint API Key:</label>
+                                <input type="text" class="form-control" id="octoPrintAPIKey" placeholder="API key" name="octoPrintAPIKey">
+                            </div>
+                            <div class="form-check form-group">
+                                <label class="form-check-label" for="check1">
+                                    <input type="checkbox" class="form-check-input" id="printMonitorEnabled" name="printMonitorEnabled" value="Enabled" %PRINTMONITORENABLED%>Enabled
+                                </label>
+                            </div>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </form>
                     </div>
                      <!-- Modal footer -->

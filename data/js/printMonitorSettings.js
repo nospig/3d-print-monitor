@@ -39,13 +39,4 @@ $(function () {
     });
 });
 
-/*
-$('document').ready(function() {
-    $('.edit_category').click(function() {
-        $tr = $(this).closest('tr');
-        alert("You want to edit: Category with ID " + $('.category-id', $tr).text() + " & Name: " + $('.category-name', $tr).text());        
-    });
-});
-*/
-
 window.addEventListener("load", init, false);

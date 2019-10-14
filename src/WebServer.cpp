@@ -118,6 +118,12 @@ void WebServer::init(SettingsManager* settingsManager)
         request->redirect("/printMonitorSettings.html");
     });
 
+    server.on("/editPrinter.html", HTTP_GET, [](AsyncWebServerRequest *request)
+    {
+        handleEditPrinter(request);
+        request->redirect("/printMonitorSettings.html");
+    });
+
     server.on("/resetSettings.html", HTTP_GET, [](AsyncWebServerRequest *request)
     {
         handleResetSettings(request);
@@ -408,7 +414,7 @@ String WebServer::createPrinterList()
         char buffer[256];
         OctoPrinterData* data = settingsManager->getPrinterData(i);
         const char deleteButton[] = "<button type='button' class='btn btn-danger mb-2 mr-2 confirmDeletePrinter'>Delete</button>";
-        const char editButton[] = "<button type='button' class='btn btn-primary mb-2 mr-2'>Edit</button>";
+        const char editButton[] = "<button type='button' class='btn btn-primary mb-2 mr-2' data-toggle='modal' data-target='#editPrinterModal'>Edit</button>";
 
         sprintf(buffer, "<tr><td class='printer-id'>%d</td><td class='display-name'>%s</td><td>%s</td><td>%s%s</td></tr>", 
             i+1, data->displayName.c_str(), data->address.c_str(), editButton, deleteButton);
@@ -509,6 +515,15 @@ void WebServer::handleDeletePrinter(AsyncWebServerRequest* request)
     AsyncWebParameter* p = request->getParam("printerId");
     Serial.print("Printer ID is: ");
     Serial.println(p->value().toInt());
+}
+
+void WebServer::handleEditPrinter(AsyncWebServerRequest* request)
+{
+    Serial.println("Server got edit printer");
+
+    AsyncWebParameter* p = request->getParam("printerId");
+    Serial.print("Printer ID is: ");
+    Serial.println(p->value());
 }
 
 void WebServer::handleUpdatePrintMonitorSettings(AsyncWebServerRequest* request)
