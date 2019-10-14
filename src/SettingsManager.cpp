@@ -6,8 +6,19 @@
 const int CURRENT_WEATHER_INTERVAL      = 10 * MINUTES_MULT;
 const int PRINT_MONITOR_INERVAL         = 30 * SECONDS_MULT;
 
+// TODO, calculate sizes
+const int PRINTER_JSON_SIZE  = 512;           
+const int SETTINGS_JSON_SIZE = 768;
+
 void SettingsManager::init()
 {
+    data.numPrinters = 0;
+
+    for(int i=0; i<MAX_PRINTERS; i++)
+    {
+        printersData[i] = new OctoPrinterData;
+    }
+
     // for testing now as settings not saved to start with
     //SPIFFS.remove(SETTINGS_FILE_NAME);
 
@@ -35,13 +46,8 @@ void SettingsManager::resetSettings()
     data.currentWeatherInterval = CURRENT_WEATHER_INTERVAL;
     data.printMonitorInterval = PRINT_MONITOR_INERVAL;
 
-    data.octoPrintAddress = "";
-    data.octoPrintPort = 80;
-    data.octoPrintUsername = "";
-    data.octoPrintPassword = "";
-    data.octoPrintAPIKey = "";
+    data.numPrinters = 0;
     data.octoPrintMonitorEnabled = false;
-    data.octoPrintDisplayName = "";
 
     data.utcOffsetSeconds = 0;
 
@@ -68,22 +74,50 @@ void SettingsManager::loadSettings()
     data.currentWeatherInterval = doc["CurrentWeatherInterval"];
     data.printMonitorInterval = doc["PrinterMonitorInterval"];
 
-    data.octoPrintAddress = (const char*)doc["OctoPrintAddress"];
-    data.octoPrintPort = doc["OctoPrintPort"];
-    data.octoPrintUsername = (const char*)doc["OctoPrintUsername"];
-    data.octoPrintPassword = (const char*)doc["OctoPrintPassword"];
-    data.octoPrintAPIKey = (const char*)doc["OctoPrintAPIKey"];
-    data.octoPrintDisplayName = (const char*)doc["OctoPrintDisplayName"];
     data.octoPrintMonitorEnabled = doc["OctoPrintEnabled"];
+    data.numPrinters = doc["PrinterCount"];
 
     data.utcOffsetSeconds = doc["utcOffset"];
 
     jsonSettings.close();
     
     // testing
-    //Serial.println();
-    //serializeJson(doc, Serial);
-    //Serial.println();
+    Serial.println();
+    serializeJson(doc, Serial);
+    Serial.println();
+
+    loadPrinters();
+}
+
+void SettingsManager::loadPrinters()
+{
+    char buffer[32];
+
+    for(int i=0; i<data.numPrinters; i++)
+    {
+        File printerSettings;
+        DynamicJsonDocument doc(PRINTER_JSON_SIZE);
+        sprintf(buffer, "/printer%d.json", i);
+        OctoPrinterData* printer = printersData[i];
+
+        printerSettings = SPIFFS.open(buffer, "r");
+        deserializeJson(doc, printerSettings);
+
+        printer->address = (const char*)doc["Address"];
+        printer->port = doc["Port"];
+        printer->username = (const char*)doc["Username"];
+        printer->password = (const char*)doc["Password"];
+        printer->apiKey = (const char*)doc["APIKey"];
+        printer->displayName = (const char*)doc["DisplayName"];
+        printer->enabled = doc["Enabled"];
+
+        printerSettings.close();
+
+        // testing
+        Serial.println();
+        serializeJson(doc, Serial);
+        Serial.println();        
+    }
 }
 
 void SettingsManager::saveSettings()
@@ -100,13 +134,8 @@ void SettingsManager::saveSettings()
     doc["PrinterMonitorInterval"] = data.printMonitorInterval;
     doc["utcOffset"] = data.utcOffsetSeconds;
 
-    doc["OctoPrintAddress"] = data.octoPrintAddress;
-    doc["OctoPrintPort"] = data.octoPrintPort;
-    doc["OctoPrintUsername"] = data.octoPrintUsername;
-    doc["OctoPrintPassword"] = data.octoPrintPassword;
-    doc["OctoPrintAPIKey"] = data.octoPrintAPIKey;
-    doc["OctoPrintDisplayName"] = data.octoPrintDisplayName;
     doc["OctoPrintEnabled"] = data.octoPrintMonitorEnabled;
+    doc["PrinterCount"] = data.numPrinters;
 
     jsonSettings = SPIFFS.open(SETTINGS_FILE_NAME, "w");
     if(jsonSettings)
@@ -121,8 +150,47 @@ void SettingsManager::saveSettings()
     }
     
     // testing
-    //serializeJson(doc, Serial); 
-    //Serial.println();
+    serializeJson(doc, Serial); 
+    Serial.println();
+
+    savePrinters();
+}
+
+void SettingsManager::savePrinters()
+{
+    char buffer[32];
+
+    for(int i=0; i<data.numPrinters; i++)
+    {
+        File printerSettings;
+        DynamicJsonDocument doc(PRINTER_JSON_SIZE);
+        sprintf(buffer, "/printer%d.json", i);
+        OctoPrinterData* printer = printersData[i];
+
+        doc["Address"] = printer->address;
+        doc["Port"] = printer->port;
+        doc["Username"] = printer->username;
+        doc["Password"] = printer->password;
+        doc["APIKey"] = printer->apiKey;
+        doc["DisplayName"] = printer->displayName;
+        doc["Enabled"] = printer->enabled;
+
+        printerSettings = SPIFFS.open(buffer, "w");
+        if(printerSettings)
+        {
+            serializeJson(doc, printerSettings);
+            //Serial.println("Printer file saved.");
+            printerSettings.close();
+
+            // testing
+            serializeJson(doc, Serial); 
+            Serial.println();
+        }
+        else
+        {
+            Serial.println("Unable to save printer.");
+        }
+    }
 }
 
 void SettingsManager::updateSettings()
@@ -215,6 +283,44 @@ void SettingsManager::setPrintMonitorInterval(int interval)
     }
 }
 
+int SettingsManager::getNumPrinters()
+{
+    return data.numPrinters;
+}
+
+OctoPrinterData* SettingsManager::getPrinterData(int printerNum)
+{
+    return printersData[printerNum];
+}
+
+void SettingsManager::setPrinterData(int printerNum, String address, int port, String userName, String password, String apiKey, String displayName)
+{
+    OctoPrinterData* data = printersData[printerNum];
+
+    data->address = address;
+    data->port = port;
+    data->username = userName;
+    data->password = password;
+    data->apiKey = apiKey;
+    data->displayName = displayName;
+}
+
+void SettingsManager::addNewPrinter(String address, int port, String userName, String password, String apiKey, String displayName)
+{
+    OctoPrinterData* newPrinter = printersData[data.numPrinters];
+
+    newPrinter->address = address;
+    newPrinter->port = port;
+    newPrinter->username = userName;
+    newPrinter->password = password;
+    newPrinter->apiKey = apiKey;
+    newPrinter->displayName = displayName;
+
+    data.numPrinters++;
+    updateSettings();
+}
+
+/*
 String SettingsManager::getOctoPrintAddress()
 {
     return data.octoPrintAddress;
@@ -298,6 +404,7 @@ void SettingsManager::setOctoPrintDisplayName(String displayName)
         updateSettings();
     }
 }
+*/
 
 bool SettingsManager::getOctoPrintEnabled()
 {

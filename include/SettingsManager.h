@@ -6,7 +6,7 @@
 #include "Settings.h"
 
 const String SETTINGS_FILE_NAME = "/Settings.json";
-const int SETTINGS_JSON_SIZE = 1536;
+const int MAX_PRINTERS = 10;
 
 typedef struct SettingsData
 {
@@ -27,11 +27,23 @@ typedef struct SettingsData
     String octoPrintAPIKey;
     String octoPrintDisplayName;
 
+    int numPrinters;
     bool octoPrintMonitorEnabled;
 
     long utcOffsetSeconds;
 
 } SettingsData;
+
+typedef struct OctoPrinterData
+{
+    String address;
+    int port;
+    String username;
+    String password;
+    String apiKey;
+    String displayName;
+    bool enabled;
+} OctoPrinterData;
 
 class SettingsManager
 {
@@ -58,6 +70,11 @@ class SettingsManager
         int getPrintMonitorInterval();
         void setPrintMonitorInterval(int interval);
 
+        int getNumPrinters();
+        OctoPrinterData* getPrinterData(int printerNum);
+        void setPrinterData(int printerNum, String address, int port, String userName, String password, String apiKey, String displayName);
+        void addNewPrinter(String address, int port, String userName, String password, String apiKey, String displayName);
+/*
         String getOctoPrintAddress();
         void setOctoPrintAddress(String address);
 
@@ -75,6 +92,7 @@ class SettingsManager
 
         String getOctoPrintDisplayName();
         void setOctoPrintDisplayName(String displayName);
+*/
 
         bool getOctoPrintEnabled();
         void setOctoPrintEnabled(bool enabled);
@@ -92,9 +110,14 @@ class SettingsManager
         SettingsData data;
         bool settingsChanged;
 
+        OctoPrinterData* printersData[MAX_PRINTERS];
+
         void loadSettings();
         void saveSettings();
         void updateSettings();
+
+        void loadPrinters();
+        void savePrinters();
 };
 
 #endif // _settingsmanager_h

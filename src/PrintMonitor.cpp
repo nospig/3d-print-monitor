@@ -65,7 +65,7 @@ void updatePrinterMonitorCallback()
         octoPrintMonitor.update();
     }
     
-    display->drawOctoPrintStatus(octoPrintMonitor.getCurrentData(), settingsManager.getOctoPrintDisplayName(), settingsManager.getOctoPrintEnabled());
+    //display->drawOctoPrintStatus(octoPrintMonitor.getCurrentData(), settingsManager.getOctoPrintDisplayName(), settingsManager.getOctoPrintEnabled());
     webServer.updatePrintMonitorInfo(octoPrintMonitor.getCurrentData(), settingsManager.getOctoPrintEnabled());
 }
 
@@ -89,8 +89,8 @@ void connectWifiCallback()
 
     webServer.init(&settingsManager);
 
-    octoPrintMonitor.init(settingsManager.getOctoPrintAddress(), settingsManager.getOctoPrintPort(), 
-                          settingsManager.getOctoPrintAPIKey(), settingsManager.getOctoPrintUsername(), settingsManager.getOctoPrintPassword());
+    //octoPrintMonitor.init(settingsManager.getOctoPrintAddress(), settingsManager.getOctoPrintPort(), 
+//                          settingsManager.getOctoPrintAPIKey(), settingsManager.getOctoPrintUsername(), settingsManager.getOctoPrintPassword());
     timeClient.setTimeOffset(settingsManager.getUtcOffset());
 
     currentWeatherClient.setMetric(settingsManager.getDisplayMetric());
@@ -138,8 +138,8 @@ void checkSettingsChangedCallback()
 
         currentWeatherClient.setMetric(settingsManager.getDisplayMetric());
 
-        octoPrintMonitor.updateSettings(settingsManager.getOctoPrintAddress(), settingsManager.getOctoPrintPort(), 
-                                        settingsManager.getOctoPrintAPIKey(), settingsManager.getOctoPrintUsername(), settingsManager.getOctoPrintPassword());
+        //octoPrintMonitor.updateSettings(settingsManager.getOctoPrintAddress(), settingsManager.getOctoPrintPort(), 
+                                        //settingsManager.getOctoPrintAPIKey(), settingsManager.getOctoPrintUsername(), settingsManager.getOctoPrintPassword());
 
         // best just to force a display clear when changing settings
         display->setDisplayMode(settingsManager.getDisplayMode());

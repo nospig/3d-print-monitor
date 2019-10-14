@@ -6,3 +6,4 @@
 include/Secrets.h
 uploadPassword.ini
 data/settings.json
+data/printer*.json
