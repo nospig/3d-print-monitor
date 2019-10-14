@@ -124,6 +124,12 @@ void WebServer::init(SettingsManager* settingsManager)
         request->redirect("/printMonitorSettings.html");
     });
 
+    server.on("/getPrinter.html", HTTP_GET, [](AsyncWebServerRequest *request)
+    {
+        handleGetPrinter(request);
+        //request->redirect("/printMonitorSettings.html");
+    });
+
     server.on("/resetSettings.html", HTTP_GET, [](AsyncWebServerRequest *request)
     {
         handleResetSettings(request);
@@ -228,6 +234,7 @@ void WebServer::init(SettingsManager* settingsManager)
 #endif // DEBUG_REQUESTS
 
     server.serveStatic("/js", SPIFFS, "/js/");
+    server.serveStatic("/css", SPIFFS, "/css/");
 
     server.begin();
 }
@@ -372,33 +379,6 @@ String WebServer::tokenProcessor(const String& token)
        return createPrinterList();
     }
 
-    
-/*    
-    if(token == "PRINTMONITORURL")
-    {
-        return String(settingsManager->getOctoPrintAddress());
-    }
-    if(token == "PRINTMONITOPORT")
-    {
-        return String(settingsManager->getOctoPrintPort());
-    }
-    if(token == "PRINTMONITORUSERNAME")
-    {
-        return String(settingsManager->getOctoPrintUsername());
-    }
-    if(token == "PRINTMONITORPASSWORD")
-    {
-        return String(settingsManager->getOctoPrintPassword());
-    }
-    if(token == "PRINTMONITORAPIKEY")
-    {
-        return String(settingsManager->getOctoPrintAPIKey());
-    }
-    if(token == "PRINTMONITORDISPLAYNAME")
-    {
-        return String(settingsManager->getOctoPrintDisplayName());
-    }    
-*/
     return String();
 }
 
@@ -416,8 +396,8 @@ String WebServer::createPrinterList()
         const char deleteButton[] = "<button type='button' class='btn btn-danger mb-2 mr-2 confirmDeletePrinter'>Delete</button>";
         const char editButton[] = "<button type='button' class='btn btn-primary mb-2 mr-2' data-toggle='modal' data-target='#editPrinterModal'>Edit</button>";
 
-        sprintf(buffer, "<tr><td class='printer-id'>%d</td><td class='display-name'>%s</td><td>%s</td><td>%s%s</td></tr>", 
-            i+1, data->displayName.c_str(), data->address.c_str(), editButton, deleteButton);
+        sprintf(buffer, "<tr><td class='printer-id'>%d</td><td class='display-name'>%s</td><td>%s</td><td>%d</td><td>%s%s</td></tr>", 
+            i+1, data->displayName.c_str(), data->address.c_str(), data->port, editButton, deleteButton);
         printerRow = String(buffer);
 
         response += printerRow;
@@ -523,7 +503,33 @@ void WebServer::handleEditPrinter(AsyncWebServerRequest* request)
 
     AsyncWebParameter* p = request->getParam("printerId");
     Serial.print("Printer ID is: ");
+    Serial.println(p->value().toInt());
+
+    p = request->getParam("editDisplayName");
+    Serial.print("Printer display name is: ");
     Serial.println(p->value());
+
+}
+
+void WebServer::handleGetPrinter(AsyncWebServerRequest* request)
+{
+    Serial.println("Server got get printer");
+
+    AsyncWebParameter* p = request->getParam("printerId");
+    Serial.print("Printer ID is: ");
+    Serial.println(p->value());    
+
+const char reponse[] = "{\n"
+"    \"address\": \"192.168.1.41\",\n"
+"    \"port\": 80,\n"
+"    \"username\": \"mgipson\",\n"
+"    \"password\": \"fingers10\",\n"
+"    \"apiKey\": \"FABD3A784FAA4843B7FE34CB5E14AEE3\",\n"
+"    \"displayName\": \"Ender GET TEST\",\n"
+"    \"enabled\": true\n"
+"}";
+
+    request->send(200, "application/json", reponse);
 }
 
 void WebServer::handleUpdatePrintMonitorSettings(AsyncWebServerRequest* request)

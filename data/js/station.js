@@ -76,7 +76,7 @@ function onClose(evt)
 
 function onMessage(evt)
 {
-    console.log(evt.data);
+    //console.log(evt.data);
 
     var messageData = JSON.parse(evt.data);
 

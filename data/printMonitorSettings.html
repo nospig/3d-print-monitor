@@ -23,6 +23,7 @@
                         <th>ID</th>
                         <th>Printer name</th>
                         <th>OctoPrint address</th>
+                        <th>Port</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -97,34 +98,34 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <form action="/editPrinter.html">
-                            <input type="hidden" name="printerId" value="WRONG">
+                            <input type="hidden" id="printerId" name="printerId">
                             <div class="form-group">
-                                <label for="octoPrintDisplayName">Printer display name (not an OctoPrint setting, e.g. Ender 3)</label>
-                                <input type="text" class="form-control" id="octoPrintDisplayName" placeholder="Display name" maxlength="64" name="octoPrintDisplayName">
+                                <label for="editDisplayName">Printer display name (not an OctoPrint setting, e.g. Ender 3)</label>
+                                <input type="text" class="form-control" id="editDisplayName" placeholder="Display name" maxlength="64" name="editDisplayName">
                             </div>
                             <div class="form-group">
-                                <label for="octoPrintUrl">OctoPrint address (don't include http://):</label>
-                                <input type="text" class="form-control" id="octoPrintUrl" placeholder="OctoPrint address" maxlength="64" name="octoPrintUrl">
+                                <label for="editPrintUrl">OctoPrint address (don't include http://):</label>
+                                <input type="text" class="form-control" id="editPrintUrl" placeholder="OctoPrint address" maxlength="64" name="editPrintUrl">
                             </div>
                             <div class="form-group">
-                                <label for="octoPrintPort">Port:</label>
-                                <input type="number" class="form-control" id="octoPrintPort" placeholder="Port number" name="octoPrintPort">
+                                <label for="editPort">Port:</label>
+                                <input type="number" class="form-control" id="editPort" placeholder="Port number" name="editPort">
                             </div>
                             <div class="form-group">
-                                <label for="octoPrintUsername">User name:</label>
-                                <input type="text" class="form-control" id="octoPrintUsername" placeholder="User name" maxlength="64" name="octoPrintUsername">
+                                <label for="editUsername">User name:</label>
+                                <input type="text" class="form-control" id="editUsername" placeholder="User name" maxlength="64" name="editUsername">
                             </div>
                             <div class="form-group">
-                                <label for="octoPrintPassword">Password:</label>
-                                <input type="password" class="form-control" id="octoPrintPassword" placeholder="Password" maxlength="64" name="octoPrintPassword">
+                                <label for="editPassword">Password:</label>
+                                <input type="password" class="form-control" id="editPassword" placeholder="Password" maxlength="64" name="editPassword">
                             </div>
                             <div class="form-group">
-                                <label for="octoPrintAPIKey">OctoPrint API Key:</label>
-                                <input type="text" class="form-control" id="octoPrintAPIKey" placeholder="API key" name="octoPrintAPIKey">
+                                <label for="editAPIKey">OctoPrint API Key:</label>
+                                <input type="text" class="form-control" id="editAPIKey" placeholder="API key" name="editAPIKey">
                             </div>
                             <div class="form-check form-group">
                                 <label class="form-check-label" for="check1">
-                                    <input type="checkbox" class="form-check-input" id="printMonitorEnabled" name="printMonitorEnabled" value="Enabled" %PRINTMONITORENABLED%>Enabled
+                                    <input type="checkbox" class="form-check-input" id="editEnabled" name="editEnabled" value="Enabled">Enabled
                                 </label>
                             </div>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -141,8 +142,8 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"

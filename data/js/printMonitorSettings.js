@@ -39,4 +39,27 @@ $(function () {
     });
 });
 
+$(".btn[data-target='#editPrinterModal']").click(function() 
+{
+    var columnValues = $(this).parent().siblings().map(function() 
+    {
+        return $(this).text();
+    }).get();
+        
+    $.get('getPrinter.html', 'printerId=' + columnValues[0],
+        function(response)
+        {
+            console.log(response);
+
+            $('#editPrinterModal').find('#printerId').val(columnValues[0]);
+            $('#editPrinterModal').find('#editDisplayName').val(response.displayName);
+            $('#editPrinterModal').find('#editPrintUrl').val(response.address);
+            $('#editPrinterModal').find('#editPort').val(response.port);
+            $('#editPrinterModal').find('#editUsername').val(response.username);
+            $('#editPrinterModal').find('#editPassword').val(response.password);
+            $('#editPrinterModal').find('#editAPIKey').val(response.apiKey);
+        }, "json"
+    );
+});
+
 window.addEventListener("load", init, false);

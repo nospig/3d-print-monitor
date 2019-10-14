@@ -33,6 +33,7 @@ class WebServer
         static void handleAddNewPrinter(AsyncWebServerRequest* request);
         static void handleDeletePrinter(AsyncWebServerRequest* request);
         static void handleEditPrinter(AsyncWebServerRequest* request);
+        static void handleGetPrinter(AsyncWebServerRequest* request);    
 
         static void handleForgetWiFi(AsyncWebServerRequest* request);
         static void handleResetSettings(AsyncWebServerRequest* request);
