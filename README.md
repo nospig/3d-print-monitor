@@ -1,6 +1,10 @@
 # 3d-print-monitor
 OctoPrint monitor for 320x240 TFT displays and a ESP8266 processor. Built with Visual Studio Code and PlatformIO.
 
+## Branches
+
+Clone from the master branch for a working version. The dev branch should be considered a nightly / backup branch and will rarely work correctly.
+
 ## Features
 
 * Creates an access point for connecting to any WiFi network.
