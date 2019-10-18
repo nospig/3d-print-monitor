@@ -15,5 +15,7 @@
 // Pin used for brightness control. Just connect LED pin on TFT to 3.3V if not required.
 #define BRIGHTNESS_PIN          16   // D0
 
+// maximum number of printers allowed
+#define MAX_PRINTERS 10
 
 #endif // _user_settings_h

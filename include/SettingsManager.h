@@ -6,7 +6,6 @@
 #include "Settings.h"
 
 const String SETTINGS_FILE_NAME = "/Settings.json";
-const int MAX_PRINTERS = 10;
 
 typedef struct SettingsData
 {
@@ -74,26 +73,8 @@ class SettingsManager
         OctoPrinterData* getPrinterData(int printerNum);
         void setPrinterData(int printerNum, String address, int port, String userName, String password, String apiKey, String displayName);
         void addNewPrinter(String address, int port, String userName, String password, String apiKey, String displayName);
-/*
-        String getOctoPrintAddress();
-        void setOctoPrintAddress(String address);
-
-        int getOctoPrintPort();
-        void setOctoPrintPort(int port);
-
-        String getOctoPrintUsername();
-        void setOctoPrintUsername(String userName);
-
-        String getOctoPrintPassword();
-        void setOctoPrintPassword(String password);
-
-        String getOctoPrintAPIKey();
-        void setOctoPrintAPIKey(String apiKey);
-
-        String getOctoPrintDisplayName();
-        void setOctoPrintDisplayName(String displayName);
-*/
-
+        void editPrinter(int printerNum, String address, int port, String userName, String password, String apiKey, String displayName, bool enabled);
+        void deletePrinter(int printerNum);
         bool getOctoPrintEnabled();
         void setOctoPrintEnabled(bool enabled);
 

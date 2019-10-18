@@ -100,12 +100,6 @@ void WebServer::init(SettingsManager* settingsManager)
         request->redirect("/index.html");
     });
 
-    server.on("/updatePrintMonitorSettings.html", HTTP_GET, [](AsyncWebServerRequest *request)
-    {
-        handleUpdatePrintMonitorSettings(request);
-        request->redirect("/index.html");
-    });
-
     server.on("/addnewPrinter.html", HTTP_GET, [](AsyncWebServerRequest *request)
     {
         handleAddNewPrinter(request);
@@ -378,6 +372,13 @@ String WebServer::tokenProcessor(const String& token)
     {
        return createPrinterList();
     }
+    if(token == "ADDPRINTERENABLED")
+    {
+       if(settingsManager->getNumPrinters() >= MAX_PRINTERS)
+       {
+           return "disabled";
+       }
+    }
 
     return String();
 }
@@ -476,8 +477,6 @@ void WebServer::handleUpdateClockSettings(AsyncWebServerRequest* request)
 
 void WebServer::handleAddNewPrinter(AsyncWebServerRequest* request)
 {
-    Serial.println("Server got add new printer");
-
     settingsManager->addNewPrinter(
         request->getParam("octoPrintUrl")->value(),
         request->getParam("octoPrintPort")->value().toInt(),
@@ -490,91 +489,64 @@ void WebServer::handleAddNewPrinter(AsyncWebServerRequest* request)
 
 void WebServer::handleDeletePrinter(AsyncWebServerRequest* request)
 {
-    Serial.println("Server got delete printer");
+    int printerId;
 
-    AsyncWebParameter* p = request->getParam("printerId");
-    Serial.print("Printer ID is: ");
-    Serial.println(p->value().toInt());
+    printerId = request->getParam("printerId")->value().toInt(); 
+    printerId--;
+
+    settingsManager->deletePrinter(printerId);
 }
 
 void WebServer::handleEditPrinter(AsyncWebServerRequest* request)
 {
-    Serial.println("Server got edit printer");
+    int printerId;
+    bool enabled = false;
 
-    AsyncWebParameter* p = request->getParam("printerId");
-    Serial.print("Printer ID is: ");
-    Serial.println(p->value().toInt());
+    printerId = request->getParam("printerId")->value().toInt(); 
+    printerId--;
 
-    p = request->getParam("editDisplayName");
-    Serial.print("Printer display name is: ");
-    Serial.println(p->value());
+    if(request->hasParam("editEnabled"))
+    {
+        enabled = true;
+    }
 
+    settingsManager->editPrinter(
+        printerId,
+        request->getParam("editPrintUrl")->value(),
+        request->getParam("editPort")->value().toInt(),
+        request->getParam("editUsername")->value(),
+        request->getParam("editPassword")->value(),
+        request->getParam("editAPIKey")->value(),
+        request->getParam("editDisplayName")->value(),
+        enabled
+    );
 }
 
 void WebServer::handleGetPrinter(AsyncWebServerRequest* request)
 {
-    Serial.println("Server got get printer");
-
     AsyncWebParameter* p = request->getParam("printerId");
-    Serial.print("Printer ID is: ");
-    Serial.println(p->value());    
+    int printerID;
 
-const char reponse[] = "{\n"
-"    \"address\": \"192.168.1.41\",\n"
-"    \"port\": 80,\n"
-"    \"username\": \"mgipson\",\n"
-"    \"password\": \"fingers10\",\n"
-"    \"apiKey\": \"FABD3A784FAA4843B7FE34CB5E14AEE3\",\n"
-"    \"displayName\": \"Ender GET TEST\",\n"
-"    \"enabled\": true\n"
-"}";
+    printerID = p->value().toInt();
+    printerID--;
+
+    OctoPrinterData* printer = settingsManager->getPrinterData(printerID);
+
+    const size_t capacity = 512;  
+    DynamicJsonDocument doc(capacity);
+    String reponse;
+
+    doc["address"] = printer->address;
+    doc["port"] = printer->port;
+    doc["username"] = printer->username;
+    doc["password"] = printer->password;
+    doc["apiKey"] = printer->apiKey;
+    doc["displayName"] = printer->displayName;
+    doc["enabled"] = printer->enabled;
+
+    serializeJson(doc, reponse);
 
     request->send(200, "application/json", reponse);
-}
-
-void WebServer::handleUpdatePrintMonitorSettings(AsyncWebServerRequest* request)
-{
-/*
-    if(request->hasParam("printMonitorEnabled"))
-    {        
-        settingsManager->setOctoPrintEnabled(true);
-    }
-    else
-    {
-        settingsManager->setOctoPrintEnabled(false);
-    }
-
-    if(request->hasParam("octoPrintUrl"))
-    {
-        AsyncWebParameter* p = request->getParam("octoPrintUrl");
-        settingsManager->setOctoPrintAddress(p->value());
-    }
-    if(request->hasParam("octoPrintPort"))
-    {
-        AsyncWebParameter* p = request->getParam("octoPrintPort");
-        settingsManager->setOctoPrintPort(p->value().toInt());
-    }
-    if(request->hasParam("octoPrintUsername"))
-    {
-        AsyncWebParameter* p = request->getParam("octoPrintUsername");
-        settingsManager->setOctoPrintUsername(p->value());
-    }
-    if(request->hasParam("octoPrintPassword"))
-    {
-        AsyncWebParameter* p = request->getParam("octoPrintPassword");
-        settingsManager->setOctoPrintPassword(p->value());
-    }
-    if(request->hasParam("octoPrintAPIKey"))
-    {
-        AsyncWebParameter* p = request->getParam("octoPrintAPIKey");
-        settingsManager->setOctoPrintAPIKey(p->value());
-    }
-    if(request->hasParam("octoPrintDisplayName"))
-    {
-        AsyncWebParameter* p = request->getParam("octoPrintDisplayName");
-        settingsManager->setOctoPrintDisplayName(p->value());
-    }   
-*/ 
 }
 
 void WebServer::handleForgetWiFi(AsyncWebServerRequest* request)

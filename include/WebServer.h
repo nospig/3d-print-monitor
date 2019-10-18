@@ -29,7 +29,6 @@ class WebServer
         static void handleUpdateTimings(AsyncWebServerRequest* request);
         static void handleUpdateClockSettings(AsyncWebServerRequest* request);        
         
-        static void handleUpdatePrintMonitorSettings(AsyncWebServerRequest* request);     
         static void handleAddNewPrinter(AsyncWebServerRequest* request);
         static void handleDeletePrinter(AsyncWebServerRequest* request);
         static void handleEditPrinter(AsyncWebServerRequest* request);

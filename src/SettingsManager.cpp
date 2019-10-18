@@ -320,91 +320,30 @@ void SettingsManager::addNewPrinter(String address, int port, String userName, S
     updateSettings();
 }
 
-/*
-String SettingsManager::getOctoPrintAddress()
+void SettingsManager::editPrinter(int printerNum, String address, int port, String userName, String password, String apiKey, String displayName, bool enabled)
 {
-    return data.octoPrintAddress;
+    OctoPrinterData* printer = printersData[printerNum];
+
+    printer->address = address;
+    printer->port = port;
+    printer->username = userName;
+    printer->password = password;
+    printer->apiKey = apiKey;
+    printer->displayName = displayName;
+    printer->enabled = enabled;
+
+    updateSettings();
 }
 
-void SettingsManager::setOctoPrintAddress(String address)
+void SettingsManager::deletePrinter(int printerNum)
 {
-    if(data.octoPrintAddress != address)
+    for (int i = printerNum; i <= data.numPrinters ; ++i)
     {
-        data.octoPrintAddress = address;
-        updateSettings();
+        printersData[i] = printersData[i + 1];
     }
+    data.numPrinters--;
+    updateSettings();
 }
-
-int SettingsManager::getOctoPrintPort()
-{
-    return data.octoPrintPort;
-}
-
-void SettingsManager::setOctoPrintPort(int port)
-{
-    if(data.octoPrintPort != port)
-    {
-        data.octoPrintPort = port;
-        updateSettings();
-    }
-}
-
-String SettingsManager::getOctoPrintUsername()
-{
-    return data.octoPrintUsername;
-}
-
-void SettingsManager::setOctoPrintUsername(String userName)
-{
-    if(data.octoPrintUsername != userName)
-    {
-        data.octoPrintUsername = userName;
-        updateSettings();
-    }
-}
-
-String SettingsManager::getOctoPrintPassword()
-{
-    return data.octoPrintPassword;
-}
-
-void SettingsManager::setOctoPrintPassword(String password)
-{
-    if(data.octoPrintPassword != password)
-    {
-        data.octoPrintPassword = password;
-        updateSettings();
-    }
-}
-
-String SettingsManager::getOctoPrintAPIKey()
-{
-    return data.octoPrintAPIKey;
-}
-
-void SettingsManager::setOctoPrintAPIKey(String apiKey)
-{
-    if(data.octoPrintAPIKey != apiKey)
-    {
-        data.octoPrintAPIKey = apiKey;
-        updateSettings();
-    }
-}
-
-String SettingsManager::getOctoPrintDisplayName()
-{
-    return data.octoPrintDisplayName;
-}
-
-void SettingsManager::setOctoPrintDisplayName(String displayName)
-{
-    if(data.octoPrintDisplayName != displayName)
-    {
-        data.octoPrintDisplayName = displayName;
-        updateSettings();
-    }
-}
-*/
 
 bool SettingsManager::getOctoPrintEnabled()
 {

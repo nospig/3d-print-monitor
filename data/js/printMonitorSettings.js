@@ -58,6 +58,7 @@ $(".btn[data-target='#editPrinterModal']").click(function()
             $('#editPrinterModal').find('#editUsername').val(response.username);
             $('#editPrinterModal').find('#editPassword').val(response.password);
             $('#editPrinterModal').find('#editAPIKey').val(response.apiKey);
+            $('#editPrinterModal').find('#editEnabled').prop('checked', response.enabled);            
         }, "json"
     );
 });
