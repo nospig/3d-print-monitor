@@ -38,6 +38,7 @@ void SettingsManager::resetSettings()
 {
     data.openWeatherMapAPIKey = "";
     data.openWeatherLocationID = "";
+    data.weatherEnabled = true;
 
     data.dispayMode = DisplayMode_Weather;
     data.displayBrightness = 100;
@@ -65,6 +66,7 @@ void SettingsManager::loadSettings()
 
     data.openWeatherMapAPIKey = (const char*)doc["WeatherAPIKey"];
     data.openWeatherLocationID = (const char*)doc["WeatherLLocationID"];
+    data.weatherEnabled = doc["WeatherEnabled"];
 
     int mode = doc["DisplayMode"];
     data.dispayMode = (DisplayMode)mode;
@@ -127,6 +129,7 @@ void SettingsManager::saveSettings()
 
     doc["WeatherAPIKey"] = data.openWeatherMapAPIKey;
     doc["WeatherLLocationID"] = data.openWeatherLocationID;
+    doc["WeatherEnabled"] = data.weatherEnabled;
     doc["DisplayMode"] = (int)data.dispayMode;
     doc["DisplayBrightness"] = data.displayBrightness;
     doc["DisplayMetric"] = data.displayMetric;
@@ -225,6 +228,20 @@ void SettingsManager::setOpenWeatherlocationID(String locationID)
         data.openWeatherLocationID = locationID;
         updateSettings();
     }
+}
+
+void SettingsManager::setWeatherEnabled(bool enabled)
+{
+    if(enabled != data.weatherEnabled)
+    {
+        data.weatherEnabled = enabled;
+        updateSettings();
+    }
+}
+
+bool SettingsManager::getWeatherEnabled()
+{
+    return data.weatherEnabled;
 }
 
 DisplayMode SettingsManager::getDisplayMode()

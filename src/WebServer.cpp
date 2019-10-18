@@ -67,7 +67,8 @@ void WebServer::init(SettingsManager* settingsManager)
 
     server.on("/weatherSettings.html", HTTP_GET, [](AsyncWebServerRequest *request)
     {
-        request->send_P(200, "text/html", weatherSettings_html, tokenProcessor); 
+        //request->send_P(200, "text/html", weatherSettings_html, tokenProcessor); 
+        request->send(SPIFFS, "/weatherSettings.html", String(), false, tokenProcessor);
     });
 
     server.on("/printMonitorSettings.html", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -152,80 +153,27 @@ void WebServer::init(SettingsManager* settingsManager)
 //        request->send_P(200, "application/javascript", printMonitorSettings_js);
 //    });
 
+//    server.on("/js/weatherSettings.js", HTTP_GET, [](AsyncWebServerRequest *request)
+//    {
+//        request->send_P(200, "application/javascript", weatherSettings_js);
+//    });
+
     server.on("/js/settings.js", HTTP_GET, [](AsyncWebServerRequest *request)
     {
         request->send_P(200, "application/javascript", settings_js);
     });
     
+    server.on("/js/station.js", HTTP_GET, [](AsyncWebServerRequest *request)
+    {
+        request->send_P(200, "application/javascript", station_js);
+    });
+
     server.on("/css/station.css", HTTP_GET, [](AsyncWebServerRequest *request)
     {
         request->send_P(200, "text/css", station_css);
     });
 
-    server.on("/js/station.js", HTTP_GET, [](AsyncWebServerRequest *request)
-    {
-        request->send_P(200, "application/javascript", station_js);
-    });
-    
 
-#define DEBUG_REQUESTS
-#ifdef DEBUG_REQUESTS
-// debugging
-    server.onNotFound([](AsyncWebServerRequest *request) {
-        Serial.printf("NOT_FOUND: ");
-        if (request->method() == HTTP_GET)
-            Serial.printf("GET");
-        else if (request->method() == HTTP_POST)
-            Serial.printf("POST");
-        else if (request->method() == HTTP_DELETE)
-            Serial.printf("DELETE");
-        else if (request->method() == HTTP_PUT)
-            Serial.printf("PUT");
-        else if (request->method() == HTTP_PATCH)
-            Serial.printf("PATCH");
-        else if (request->method() == HTTP_HEAD)
-            Serial.printf("HEAD");
-        else if (request->method() == HTTP_OPTIONS)
-            Serial.printf("OPTIONS");
-        else
-            Serial.printf("UNKNOWN");
-        Serial.printf(" http://%s%s\n", request->host().c_str(), request->url().c_str());
-
-        if (request->contentLength())
-        {
-            Serial.printf("_CONTENT_TYPE: %s\n", request->contentType().c_str());
-            Serial.printf("_CONTENT_LENGTH: %u\n", request->contentLength());
-        }
-
-        int headers = request->headers();
-        int i;
-        for (i = 0; i < headers; i++)
-        {
-            AsyncWebHeader *h = request->getHeader(i);
-            Serial.printf("_HEADER[%s]: %s\n", h->name().c_str(), h->value().c_str());
-        }
-
-        int params = request->params();
-        for (i = 0; i < params; i++)
-        {
-            AsyncWebParameter *p = request->getParam(i);
-            if (p->isFile())
-            {
-                Serial.printf("_FILE[%s]: %s, size: %u\n", p->name().c_str(), p->value().c_str(), p->size());
-            }
-            else if (p->isPost())
-            {
-                Serial.printf("_POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-            }
-            else
-            {
-                Serial.printf("_GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
-            }
-        }
-
-        request->send(404);
-    });
-#endif // DEBUG_REQUESTS
 
     server.serveStatic("/js", SPIFFS, "/js/");
     server.serveStatic("/css", SPIFFS, "/css/");
@@ -379,6 +327,13 @@ String WebServer::tokenProcessor(const String& token)
            return "disabled";
        }
     }
+    if(token == "WEATHERENABLED")
+    {
+        if(settingsManager->getWeatherEnabled() == true)
+        {
+            return "Checked";
+        }
+    }    
 
     return String();
 }
@@ -418,6 +373,14 @@ void WebServer::handleUpdateWeatherSettings(AsyncWebServerRequest* request)
     {
         AsyncWebParameter* p = request->getParam("openWeatherApiKey");
         settingsManager->setOpenWeatherApiKey(p->value());
+    }
+    if(request->hasParam("weatherEnabled"))
+    {        
+        settingsManager->setWeatherEnabled(true);
+    }
+    else
+    {
+        settingsManager->setWeatherEnabled(false);
     }
     if(request->hasParam("displayMetric"))
     {        

@@ -29,21 +29,29 @@
                     <tr>
                         <td>
                             <form action="/updateWeatherSettings.html">
-                                <div class="form-group">
-                                    <label for="locationID">OpenWeather location ID:</label>
-                                    <input type="text" class="form-control" id="locationID" value="%WEATHERLOCATIONKEY%"
-                                        placeholder="OpenWeather location ID" name="openWeatherLocation">
-                                </div>
-                                <div class="form-group">
-                                    <label for="weatherApiKey">OpenWeather Api Key:</label>
-                                    <input type="text" class="form-control" id="weatherApiKey" value="%WEATHERAPIKEY%"
-                                        placeholder="OpenWeather API Key" name="openWeatherApiKey">
-                                </div>
                                 <div class="form-check form-group">
                                     <label class="form-check-label" for="check1">
-                                        <input type="checkbox" class="form-check-input" id="displayMetric" name="displayMetric" value="Metric"
-                                            %DISPLAYMETRIC%>Metric display for weather
+                                        <input type="checkbox" class="form-check-input" id="weatherEnabled" name="weatherEnabled" value="Enabled"
+                                            %WEATHERENABLED%>Enabled
                                     </label>
+                                </div>
+                                <div id="weatherForm">
+                                    <div class="form-group">
+                                        <label for="locationID">OpenWeather location ID:</label>
+                                        <input type="text" class="form-control" id="locationID" value="%WEATHERLOCATIONKEY%"
+                                        placeholder="OpenWeather location ID" required name="openWeatherLocation">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="weatherApiKey">OpenWeather Api Key:</label>
+                                        <input type="text" class="form-control" id="weatherApiKey" required value="%WEATHERAPIKEY%" placeholder="OpenWeather API Key"
+                                        name="openWeatherApiKey">
+                                    </div>
+                                    <div class="form-check form-group">
+                                        <label class="form-check-label" for="check1">
+                                            <input type="checkbox" class="form-check-input" id="displayMetric" name="displayMetric" value="Metric"
+                                            %DISPLAYMETRIC%>Metric display for weather
+                                        </label>
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
@@ -67,7 +75,7 @@
         crossorigin="anonymous"></script>
     <!-- Confirm Modal Js -->
     <script src="js/jquery.confirmModal.min.js"></script>
-    <script src="js/settings.js"></script>
+    <script src="js/weatherSettings.js"></script>
 </body>
 
 </html>

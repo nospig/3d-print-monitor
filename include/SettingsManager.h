@@ -11,6 +11,7 @@ typedef struct SettingsData
 {
     String openWeatherMapAPIKey;
     String openWeatherLocationID;
+    bool weatherEnabled;
 
     DisplayMode dispayMode;
     int displayBrightness;
@@ -57,6 +58,9 @@ class SettingsManager
         String getOpenWeatherlocationID();
         void setOpenWeatherlocationID(String locationID);
 
+        void setWeatherEnabled(bool enabled);
+        bool getWeatherEnabled();
+
         DisplayMode getDisplayMode();
         void setDisplayMode(DisplayMode displayMode);
 
@@ -65,7 +69,7 @@ class SettingsManager
 
         int getCurrentWeatherInterval();
         void setCurrentWeatherInterval(int interval);
-
+        
         int getPrintMonitorInterval();
         void setPrintMonitorInterval(int interval);
 

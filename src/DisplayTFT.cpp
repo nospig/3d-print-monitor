@@ -84,12 +84,20 @@ void DisplayTFT::drawCurrentTime(unsigned long epochTime)
     drawTimeDisplay(epochTime, TIME_Y);
 }
 
-void DisplayTFT::drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather)
+void DisplayTFT::drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather, bool enabled)
 {
     switch(getDisplayMode())
     {
         case DisplayMode_Weather:
-            drawDetailedCurrentWeather(currentWeather, 0);
+            if(enabled)
+            {
+                drawDetailedCurrentWeather(currentWeather, 0);
+            }
+            else
+            {
+                drawWeatherNotEnabled();
+            }
+            
         default:
             break;
     }    
@@ -365,6 +373,15 @@ void DisplayTFT::drawDetailedCurrentWeather(OpenWeatherMapCurrentData* currentWe
         tft->drawString(buffer, x + width, y);   
         y += tft->fontHeight();
     }
+}
+
+void DisplayTFT::drawWeatherNotEnabled()
+{
+    tft->setTextDatum(MC_DATUM);
+    tft->setTextFont(2);
+    tft->setTextColor(PRINT_MONITOR_TEXT_COLOUR, BACKGROUND_COLOUR); 
+    tft->drawString("Enable weather", tft->width()/2, tft->height()/4);   
+    tft->drawString("in settings", tft->width()/2, (tft->height()/4) + tft->fontHeight());  
 }
 
 /****************************************************************************************

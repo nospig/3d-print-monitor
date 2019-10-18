@@ -48,12 +48,12 @@ void getTimeCallback()
 
 void getCurrentWeatherCallback()
 {
-    if(settingsManager.getOpenWeatherApiKey() != "" && settingsManager.getOpenWeatherlocationID() != "")
+    if(settingsManager.getWeatherEnabled())
     {
         currentWeatherClient.updateById(settingsManager.getOpenWeatherApiKey(), settingsManager.getOpenWeatherlocationID());
-        display->drawCurrentWeather(currentWeatherClient.getCurrentData());
         webServer.updateCurrentWeather(currentWeatherClient.getCurrentData());
     }
+    display->drawCurrentWeather(currentWeatherClient.getCurrentData(), settingsManager.getWeatherEnabled());
 }
 
 // Printer monitor

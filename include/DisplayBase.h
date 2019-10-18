@@ -21,7 +21,7 @@ class DisplayBase
 
         virtual void drawIPAddress(String ipAddress);
         virtual void drawCurrentTime(unsigned long epochTime) {};        
-        virtual void drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather) {};
+        virtual void drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather, bool enabled) {};
         virtual void drawWiFiStrength(long dBm) {};
         virtual void drawOctoPrintStatus(OctoPrintMonitorData* printData, String printerName, bool enabled) {};
         
