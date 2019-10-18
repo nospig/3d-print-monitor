@@ -305,7 +305,7 @@ void SettingsManager::setPrinterData(int printerNum, String address, int port, S
     data->displayName = displayName;
 }
 
-void SettingsManager::addNewPrinter(String address, int port, String userName, String password, String apiKey, String displayName)
+void SettingsManager::addNewPrinter(String address, int port, String userName, String password, String apiKey, String displayName, bool enabled)
 {
     OctoPrinterData* newPrinter = printersData[data.numPrinters];
 
@@ -315,7 +315,7 @@ void SettingsManager::addNewPrinter(String address, int port, String userName, S
     newPrinter->password = password;
     newPrinter->apiKey = apiKey;
     newPrinter->displayName = displayName;
-
+    newPrinter->enabled = enabled;
     data.numPrinters++;
     updateSettings();
 }

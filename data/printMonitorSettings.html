@@ -48,31 +48,31 @@
                         <form action="/addnewPrinter.html">
                             <div class="form-group">
                                 <label for="octoPrintDisplayName">Printer display name (not an OctoPrint setting, e.g. Ender 3)</label>
-                                <input type="text" class="form-control" id="octoPrintDisplayName" value="" placeholder="Display name" maxlength="64" name="octoPrintDisplayName">
+                                <input type="text" class="form-control" id="octoPrintDisplayName" required placeholder="Display name" maxlength="64" name="octoPrintDisplayName">
                             </div>
                             <div class="form-group">
                                 <label for="octoPrintUrl">OctoPrint address (don't include http://):</label>
-                                <input type="text" class="form-control" id="octoPrintUrl" value="" placeholder="OctoPrint address" maxlength="64" name="octoPrintUrl">
+                                <input type="text" class="form-control" id="octoPrintUrl" required placeholder="OctoPrint address" maxlength="64" name="octoPrintUrl">
                             </div>
                             <div class="form-group">
                                 <label for="octoPrintPort">Port:</label>
-                                <input type="number" class="form-control" id="octoPrintPort" value="" placeholder="Port number" name="octoPrintPort">
+                                <input type="number" class="form-control" id="octoPrintPort" required placeholder="Port number" name="octoPrintPort">
                             </div>
                             <div class="form-group">
                                 <label for="octoPrintUsername">User name:</label>
-                                <input type="text" class="form-control" id="octoPrintUsername" value="" placeholder="User name" maxlength="64" name="octoPrintUsername">
+                                <input type="text" class="form-control" id="octoPrintUsername" placeholder="User name" maxlength="64" name="octoPrintUsername">
                             </div>
                             <div class="form-group">
                                 <label for="octoPrintPassword">Password:</label>
-                                <input type="password" class="form-control" id="octoPrintPassword" value="" placeholder="Password" maxlength="64" name="octoPrintPassword">
+                                <input type="password" class="form-control" id="octoPrintPassword" placeholder="Password" maxlength="64" name="octoPrintPassword">
                             </div>
                             <div class="form-group">
                                 <label for="octoPrintAPIKey">OctoPrint API Key:</label>
-                                <input type="text" class="form-control" id="octoPrintAPIKey" value="" placeholder="API key" name="octoPrintAPIKey">
+                                <input type="text" class="form-control" id="octoPrintAPIKey" required placeholder="API key" name="octoPrintAPIKey">
                             </div>
                             <div class="form-check form-group">
                                 <label class="form-check-label" for="check1">
-                                    <input type="checkbox" class="form-check-input" id="printMonitorEnabled" name="printMonitorEnabled" value="Enabled" %PRINTMONITORENABLED%>Enabled
+                                    <input type="checkbox" class="form-check-input" id="printerEnabled" name="printerEnabled" value="Enabled" Checked>Enabled
                                 </label>
                             </div>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -101,15 +101,15 @@
                             <input type="hidden" id="printerId" name="printerId">
                             <div class="form-group">
                                 <label for="editDisplayName">Printer display name (not an OctoPrint setting, e.g. Ender 3)</label>
-                                <input type="text" class="form-control" id="editDisplayName" placeholder="Display name" maxlength="64" name="editDisplayName">
+                                <input type="text" class="form-control" id="editDisplayName" required placeholder="Display name" maxlength="64" name="editDisplayName">
                             </div>
                             <div class="form-group">
                                 <label for="editPrintUrl">OctoPrint address (don't include http://):</label>
-                                <input type="text" class="form-control" id="editPrintUrl" placeholder="OctoPrint address" maxlength="64" name="editPrintUrl">
+                                <input type="text" class="form-control" id="editPrintUrl" required placeholder="OctoPrint address" maxlength="64" name="editPrintUrl">
                             </div>
                             <div class="form-group">
                                 <label for="editPort">Port:</label>
-                                <input type="number" class="form-control" id="editPort" placeholder="Port number" name="editPort">
+                                <input type="number" class="form-control" id="editPort" required placeholder="Port number" name="editPort">
                             </div>
                             <div class="form-group">
                                 <label for="editUsername">User name:</label>
@@ -121,7 +121,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="editAPIKey">OctoPrint API Key:</label>
-                                <input type="text" class="form-control" id="editAPIKey" placeholder="API key" name="editAPIKey">
+                                <input type="text" class="form-control" id="editAPIKey" required placeholder="API key" name="editAPIKey">
                             </div>
                             <div class="form-check form-group">
                                 <label class="form-check-label" for="check1">

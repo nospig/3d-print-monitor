@@ -477,13 +477,21 @@ void WebServer::handleUpdateClockSettings(AsyncWebServerRequest* request)
 
 void WebServer::handleAddNewPrinter(AsyncWebServerRequest* request)
 {
+    bool enabled = false;
+
+    if(request->hasParam("printerEnabled"))
+    {
+        enabled = true;
+    }
+
     settingsManager->addNewPrinter(
         request->getParam("octoPrintUrl")->value(),
         request->getParam("octoPrintPort")->value().toInt(),
         request->getParam("octoPrintUsername")->value(),
         request->getParam("octoPrintPassword")->value(),
         request->getParam("octoPrintAPIKey")->value(),
-        request->getParam("octoPrintDisplayName")->value()
+        request->getParam("octoPrintDisplayName")->value(),
+        enabled
     );
 }
 
