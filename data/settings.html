@@ -9,7 +9,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/station.css">
 
-    <title>Weather Station | General Settings</title>
+    <title>OctoPrint Monitor | General Settings</title>
 </head>
 
 <body>
@@ -28,20 +28,7 @@
                     <tr>
                         <td>
                             <form action="/updateDisplaySettings.html">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="display1">
-                                            <input type="radio" class="form-check-input" id="display1" name="optdisplay"
-                                                value="display1" %DISPLAY1CHECKED%>Detailed current weather
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="display2">
-                                            <input type="radio" class="form-check-input" id="display2" name="optdisplay"
-                                                value="display2" %DISPLAY2CHECKED%>OctoPrint monitor
-                                        </label>
-                                    </div>
-                                    </div>
+                                %DISPLAYTABLE%
                                 <div class="form-group">
                                     <label for="displayBrighness">Display brightness</label>
                                         <input type="range" class="custom-range" id="displayBrighness" name="brightness" min="0" max="100" value="%BRIGHTNESS%">

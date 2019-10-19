@@ -52,6 +52,8 @@ void SettingsManager::resetSettings()
 
     data.utcOffsetSeconds = 0;
 
+    data.currentDisplay = 0;
+
     saveSettings();
     settingsChanged = true;
 }
@@ -80,6 +82,8 @@ void SettingsManager::loadSettings()
     data.numPrinters = doc["PrinterCount"];
 
     data.utcOffsetSeconds = doc["utcOffset"];
+
+    data.currentDisplay = doc["CurrentDisplay"];
 
     jsonSettings.close();
     
@@ -139,6 +143,7 @@ void SettingsManager::saveSettings()
 
     doc["OctoPrintEnabled"] = data.octoPrintMonitorEnabled;
     doc["PrinterCount"] = data.numPrinters;
+    doc["CurrentDisplay"] = data.currentDisplay;
 
     jsonSettings = SPIFFS.open(SETTINGS_FILE_NAME, "w");
     if(jsonSettings)
@@ -405,9 +410,23 @@ void SettingsManager::setDisplayBrightness(int brightnessPercent)
     {
         brightnessPercent = 100;
     }
-     if(data.displayBrightness != brightnessPercent)
+    if(data.displayBrightness != brightnessPercent)
     {
         data.displayBrightness = brightnessPercent;
+        updateSettings();
+    }
+}
+
+int SettingsManager::getCurrentDisplay()
+{
+    return data.currentDisplay;
+}
+
+void SettingsManager::setCurrentDisplay(int currentDisplay)
+{
+    if(data.currentDisplay != currentDisplay)
+    {
+        data.currentDisplay = currentDisplay;
         updateSettings();
     }
 }

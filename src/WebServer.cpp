@@ -62,7 +62,8 @@ void WebServer::init(SettingsManager* settingsManager)
 
     server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest *request)
     {
-        request->send_P(200, "text/html", settings_html, tokenProcessor);
+        //request->send_P(200, "text/html", settings_html, tokenProcessor);
+        request->send(SPIFFS, "/settings.html", String(), false, tokenProcessor);
     });
 
     server.on("/weatherSettings.html", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -320,6 +321,10 @@ String WebServer::tokenProcessor(const String& token)
     {
        return createPrinterList();
     }
+    if(token == "DISPLAYTABLE")
+    {
+       return createDisplayList();
+    }
     if(token == "ADDPRINTERENABLED")
     {
        if(settingsManager->getNumPrinters() >= MAX_PRINTERS)
@@ -362,6 +367,57 @@ String WebServer::createPrinterList()
     return response;
 }
 
+String WebServer::createDisplayList()
+{
+    int numPrinters = settingsManager->getNumPrinters();
+    String response;
+    String button;
+    int currentDisplay = settingsManager->getCurrentDisplay();
+    String checked = "";
+
+    if(currentDisplay == 0)
+    {
+        checked = "checked";
+    }
+    response += createDisplayButton(0, checked, "Current Weather");
+    
+    for(int i=0; i<numPrinters; i++)
+    {
+        OctoPrinterData* data = settingsManager->getPrinterData(i);
+        String id = "Printer" + i;
+        if(currentDisplay == i + 1)
+        {
+            checked = "checked";
+        }
+        else
+        {
+            checked = "";
+        }
+        
+        response += createDisplayButton(i + 1, checked, data->displayName);
+    }
+
+    return response;
+}
+
+String WebServer::createDisplayButton(int id, String checked, String title)
+{
+    String button;
+    char buffer[256];
+    const char buttonHeader[] = "<div class='form-group'><div class='form-check'><label class='form-check-label'>";
+    const char buttonInfo[] = "<input type='radio' class='form-check-input' value='%d' name='optdisplay' %s>%s";
+    const char buttonFooter[] = "</label></div></div>";
+    
+    sprintf(buffer, buttonInfo, id, checked.c_str(), title.c_str());
+    
+    button += buttonHeader;
+    button += buffer;
+    button += buttonFooter;
+
+    return button;
+}
+
+
 void WebServer::handleUpdateWeatherSettings(AsyncWebServerRequest* request)
 {
     if(request->hasParam("openWeatherLocation"))
@@ -398,14 +454,7 @@ void WebServer::handleUpdateDisplaySettings(AsyncWebServerRequest* request)
     {
         AsyncWebParameter* p = request->getParam("optdisplay");
         
-        if(p->value() == "display1")
-        {
-            settingsManager->setDisplayMode(DisplayMode_Weather);
-        }
-        if(p->value() == "display2")
-        {
-            settingsManager->setDisplayMode(DisplayMode_PrintMonitor);
-        }
+        settingsManager->setCurrentDisplay(p->value().toInt());
     }
     if(request->hasParam("brightness"))
     {

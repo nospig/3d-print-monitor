@@ -32,6 +32,8 @@ typedef struct SettingsData
 
     long utcOffsetSeconds;
 
+    int currentDisplay;
+
 } SettingsData;
 
 typedef struct OctoPrinterData
@@ -87,6 +89,9 @@ class SettingsManager
 
         int getDisplayBrightness();
         void setDisplayBrightness(int brightnessPercent);
+
+        int getCurrentDisplay();
+        void setCurrentDisplay(int currentDisplay);
 
         bool getSettingsChanged();
         void resetSettingsChanged();

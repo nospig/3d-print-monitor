@@ -38,6 +38,8 @@ class WebServer
         static void handleResetSettings(AsyncWebServerRequest* request);
         static void handleScreenGrab(AsyncWebServerRequest* request);
         static String createPrinterList();
+        static String createDisplayList();
+        static String createDisplayButton(int id, String checked, String title);
 
         static String currentWeatherJson;
         static String currentPrinterJson;
