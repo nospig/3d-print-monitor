@@ -3,11 +3,11 @@ OctoPrint monitor for 320x240 TFT displays and a ESP8266 processor. Built with V
 
 ## Note.
 
-A new version will be published in a day or two that can monitor multiple printers. The settings are not backwards compatible. It is probably best if you clear the flash first if you are upgrading from a previous version.
+The current dev branch contains a version can monitor multiple printers. The settings are not backwards compatible. It is probably best if you clear the flash first if you are upgrading from a previous version.
 
 ## Branches
 
-Clone from the master branch for a working version. The dev branch should be considered a nightly / backup branch and will rarely work correctly.
+Clone from the master branch for a working version. The dev branch should be considered a nightly / backup branch and will rarely work correctly unless noted above.
 
 ## Features
 
