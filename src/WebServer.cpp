@@ -168,6 +168,7 @@ void WebServer::init(SettingsManager* settingsManager)
     
     server.on("/js/station.js", HTTP_GET, [](AsyncWebServerRequest *request)
     {
+        //request->send(SPIFFS, "/js/station.js", String(), false, tokenProcessor);
         request->send_P(200, "application/javascript", station_js);
     });
 
@@ -219,7 +220,7 @@ void WebServer::updateCurrentWeather(OpenWeatherMapCurrentData* currentWeather)
     }
 }
     
-void WebServer::updatePrintMonitorInfo(OctoPrintMonitorData* printerInfo, bool enabled)
+void WebServer::updatePrintMonitorInfo(OctoPrintMonitorData* printerInfo, String printerName, bool enabled)
 {
     const size_t capacity = 512;  
     DynamicJsonDocument jsonDoc(capacity);
@@ -231,6 +232,7 @@ void WebServer::updatePrintMonitorInfo(OctoPrintMonitorData* printerInfo, bool e
     jsonDoc["validJobData"] = printerInfo->validJobData;
     jsonDoc["validPrintData"] = printerInfo->validPrintData;
     jsonDoc["printState"] = printerInfo->printState;
+    jsonDoc["printerName"] = printerName;
 
     serializeJson(jsonDoc, output);
     currentPrinterJson = output;

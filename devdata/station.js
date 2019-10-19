@@ -42,16 +42,16 @@ function updateMonitorInfo(messageData)
     {
         if(messageData.validPrintData)
         {
-            $("#monitorInfoList").append('<li class="list-group-item">' + 'Printer state: ' + messageData.printState + '</li>');    
+            $("#monitorInfoList").append('<li class="list-group-item">' + messageData.printerName + ' - state: ' + messageData.printState + '</li>');    
         }
         else
         {
-            $("#monitorInfoList").append('<li class="list-group-item">' + 'No valid data received.' + '</li>');    
+            $("#monitorInfoList").append('<li class="list-group-item">' + messageData.printerName + ' - no valid data received.' + '</li>');    
         }
     }
     else
     {
-        $("#monitorInfoList").append('<li class="list-group-item">' + 'Monitor not enabled.' + '</li>');
+        $("#monitorInfoList").append('<li class="list-group-item">' + messageData.printerName + ' - not enabled.' + '</li>');
     }
 }
 

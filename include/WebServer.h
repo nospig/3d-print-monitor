@@ -15,7 +15,7 @@ class WebServer
         static AsyncWebServer* getServer();
 
         void updateCurrentWeather(OpenWeatherMapCurrentData* currentWeather);
-        void updatePrintMonitorInfo(OctoPrintMonitorData* printerInfo, bool enabled);
+        void updatePrintMonitorInfo(OctoPrintMonitorData* printerInfo, String printerName, bool enabled);
 
         bool screenGrabRequested();
         void clearScreenGrabRequest();
