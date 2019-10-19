@@ -361,11 +361,23 @@ String WebServer::createPrinterList()
         String printerRow;
         char buffer[256];
         OctoPrinterData* data = settingsManager->getPrinterData(i);
-        const char deleteButton[] = "<button type='button' class='btn btn-danger mb-2 mr-2 confirmDeletePrinter'>Delete</button>";
-        const char editButton[] = "<button type='button' class='btn btn-primary mb-2 mr-2' data-toggle='modal' data-target='#editPrinterModal'>Edit</button>";
+        const char deleteButton[] = "<button type='button' class='btn btn-danger mr-2 confirmDeletePrinter'>Delete</button>";
+        const char editButton[] = "<button type='button' class='btn btn-primary mr-2' data-toggle='modal' data-target='#editPrinterModal'>Edit</button>";
+        const char enabledBox[] = "<td><input type='checkbox' disabled checked></td>";
+        const char disabledBox[] = "<td><input type='checkbox' disabled></td>";
+        const char *checkbox;
 
-        sprintf(buffer, "<tr><td class='printer-id'>%d</td><td class='display-name'>%s</td><td>%s</td><td>%d</td><td>%s%s</td></tr>", 
-            i+1, data->displayName.c_str(), data->address.c_str(), data->port, editButton, deleteButton);
+        if(data->enabled)
+        {
+            checkbox = enabledBox;
+        }
+        else
+        {
+            checkbox = disabledBox;
+        }
+        
+        sprintf(buffer, "<tr><td class='printer-id'>%d</td><td class='display-name'>%s</td><td>%s</td><td>%d</td>%s<td>%s%s</td></tr>", 
+            i+1, data->displayName.c_str(), data->address.c_str(), data->port, checkbox, editButton, deleteButton);
         printerRow = String(buffer);
 
         response += printerRow;
