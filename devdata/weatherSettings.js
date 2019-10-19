@@ -2,24 +2,38 @@ function init()
 {   
     if ($('#weatherEnabled').is(":checked"))
     {
-        $("#weatherForm").show();
+        showWeatherForm();
     }
     else
     {
-        $("#weatherForm").hide();
+        hideWeatherForm();
     }
 
     $("#weatherEnabled").click(function()
     {
         if($(this).is(":checked"))
         {
-            $("#weatherForm").show();
+            showWeatherForm();
         }
         else
         {
-            $("#weatherForm").hide();
+            hideWeatherForm();
         }
     });
+}
+
+function showWeatherForm()
+{
+    $("#weatherForm").show();
+    $("#locationID").prop('required', true);
+    $("#weatherApiKey").prop('required', true);
+}
+
+function hideWeatherForm()
+{
+    $("#weatherForm").hide();
+    $("#locationID").prop('required', false);
+    $("#weatherApiKey").prop('required', false);    
 }
 
 window.addEventListener("load", init, false);
