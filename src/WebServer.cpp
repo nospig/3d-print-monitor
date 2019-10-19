@@ -30,6 +30,8 @@ static const char NAV_BAR[] PROGMEM =
     "</li>"
     "<li class='nav-item'>"
     "<a class='nav-link' href='screenGrab.html'>Screengrab</a>"
+    "</li>"
+    "</ul>"
     "</nav>";
 
 // methods
@@ -62,20 +64,20 @@ void WebServer::init(SettingsManager* settingsManager)
 
     server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest *request)
     {
-        //request->send_P(200, "text/html", settings_html, tokenProcessor);
-        request->send(SPIFFS, "/settings.html", String(), false, tokenProcessor);
+        request->send_P(200, "text/html", settings_html, tokenProcessor);
+        //request->send(SPIFFS, "/settings.html", String(), false, tokenProcessor);
     });
 
     server.on("/weatherSettings.html", HTTP_GET, [](AsyncWebServerRequest *request)
     {
-        //request->send_P(200, "text/html", weatherSettings_html, tokenProcessor); 
-        request->send(SPIFFS, "/weatherSettings.html", String(), false, tokenProcessor);
+        request->send_P(200, "text/html", weatherSettings_html, tokenProcessor); 
+        //request->send(SPIFFS, "/weatherSettings.html", String(), false, tokenProcessor);
     });
 
     server.on("/printMonitorSettings.html", HTTP_GET, [](AsyncWebServerRequest *request)
     {
-        //request->send_P(200, "text/html", printMonitorSettings_html, tokenProcessor);
-        request->send(SPIFFS, "/printMonitorSettings.html", String(), false, tokenProcessor);
+        request->send_P(200, "text/html", printMonitorSettings_html, tokenProcessor);
+        //request->send(SPIFFS, "/printMonitorSettings.html", String(), false, tokenProcessor);
     });
 
     server.on("/updateWeatherSettings.html", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -149,20 +151,20 @@ void WebServer::init(SettingsManager* settingsManager)
         request->send_P(200, "application/javascript", confirmModal_js);
     });
 
-//    server.on("/js/printMonitorSettings.js", HTTP_GET, [](AsyncWebServerRequest *request)
-//    {
-//        request->send_P(200, "application/javascript", printMonitorSettings_js);
-//    });
+    server.on("/js/printMonitorSettings.js", HTTP_GET, [](AsyncWebServerRequest *request)
+    {
+        request->send_P(200, "application/javascript", printMonitorSettings_js);
+    });
 
-//    server.on("/js/weatherSettings.js", HTTP_GET, [](AsyncWebServerRequest *request)
-//    {
-//        request->send_P(200, "application/javascript", weatherSettings_js);
-//    });
+    server.on("/js/weatherSettings.js", HTTP_GET, [](AsyncWebServerRequest *request)
+    {
+        request->send_P(200, "application/javascript", weatherSettings_js);
+    });
 
-//    server.on("/js/settings.js", HTTP_GET, [](AsyncWebServerRequest *request)
-//    {
-//        request->send_P(200, "application/javascript", settings_js);
-//    });
+    server.on("/js/settings.js", HTTP_GET, [](AsyncWebServerRequest *request)
+    {
+        request->send_P(200, "application/javascript", settings_js);
+    });
     
     server.on("/js/station.js", HTTP_GET, [](AsyncWebServerRequest *request)
     {
@@ -174,10 +176,7 @@ void WebServer::init(SettingsManager* settingsManager)
         request->send_P(200, "text/css", station_css);
     });
 
-
-
-    server.serveStatic("/js", SPIFFS, "/js/");
-    server.serveStatic("/css", SPIFFS, "/css/");
+    //server.serveStatic("/js", SPIFFS, "/js/");
 
     server.begin();
 }
