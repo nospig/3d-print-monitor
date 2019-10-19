@@ -49,7 +49,6 @@ void SettingsManager::resetSettings()
     data.printMonitorInterval = PRINT_MONITOR_INERVAL;
 
     data.numPrinters = 0;
-    data.octoPrintMonitorEnabled = false;
 
     data.utcOffsetSeconds = 0;
 
@@ -78,7 +77,6 @@ void SettingsManager::loadSettings()
     data.currentWeatherInterval = doc["CurrentWeatherInterval"];
     data.printMonitorInterval = doc["PrinterMonitorInterval"];
 
-    data.octoPrintMonitorEnabled = doc["OctoPrintEnabled"];
     data.numPrinters = doc["PrinterCount"];
 
     data.utcOffsetSeconds = doc["utcOffset"];
@@ -141,7 +139,6 @@ void SettingsManager::saveSettings()
     doc["PrinterMonitorInterval"] = data.printMonitorInterval;
     doc["utcOffset"] = data.utcOffsetSeconds;
 
-    doc["OctoPrintEnabled"] = data.octoPrintMonitorEnabled;
     doc["PrinterCount"] = data.numPrinters;
     doc["CurrentDisplay"] = data.currentDisplay;
 
@@ -362,20 +359,6 @@ void SettingsManager::deletePrinter(int printerNum)
         printerDeletedCallback();
     }
     updateSettings();
-}
-
-bool SettingsManager::getOctoPrintEnabled()
-{
-    return data.octoPrintMonitorEnabled;
-}
-
-void SettingsManager::setOctoPrintEnabled(bool enabled)
-{
-    if(data.octoPrintMonitorEnabled != enabled)
-    {
-        data.octoPrintMonitorEnabled = enabled;
-        updateSettings();
-    }
 }
 
 long SettingsManager::getUtcOffset()

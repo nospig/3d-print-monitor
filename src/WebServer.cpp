@@ -310,13 +310,6 @@ String WebServer::tokenProcessor(const String& token)
     {
         return String(settingsManager->getDisplayBrightness());
     }
-    if(token == "PRINTMONITORENABLED")
-    {
-        if(settingsManager->getOctoPrintEnabled() == true)
-        {
-            return "Checked";
-        }
-    }
     if(token == "PRINTERTABLE")
     {
        return createPrinterList();

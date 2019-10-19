@@ -70,7 +70,7 @@ void updatePrinterMonitorCallback()
     }
     
     display->drawOctoPrintStatus(octoPrintMonitor.getCurrentData(), printerData->displayName, printerData->enabled);
-    webServer.updatePrintMonitorInfo(octoPrintMonitor.getCurrentData(), settingsManager.getOctoPrintEnabled());
+    webServer.updatePrintMonitorInfo(octoPrintMonitor.getCurrentData(), true);  // TODO   settingsManager.getOctoPrintEnabled());
 
     Serial.println("updatePrinterMonitorCallback");
 }

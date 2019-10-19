@@ -31,7 +31,6 @@ typedef struct SettingsData
     String octoPrintDisplayName;
 
     int numPrinters;
-    bool octoPrintMonitorEnabled;
 
     long utcOffsetSeconds;
 
@@ -83,8 +82,6 @@ class SettingsManager
         void addNewPrinter(String address, int port, String userName, String password, String apiKey, String displayName, bool enabled);
         void editPrinter(int printerNum, String address, int port, String userName, String password, String apiKey, String displayName, bool enabled);
         void deletePrinter(int printerNum);
-        bool getOctoPrintEnabled();
-        void setOctoPrintEnabled(bool enabled);
 
         long getUtcOffset();
         void setUtcOffset(long utcOffset);
