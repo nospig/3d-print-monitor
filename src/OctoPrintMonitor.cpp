@@ -75,6 +75,7 @@ int OctoPrintMonitor::performAPIGet(String apiCall, String& payload)
     HTTPClient http;
 
     http.begin(client, this->server, this->port, apiCall);
+    http.setTimeout(2000);
     http.addHeader("X-Api-Key", this->apiKey);
 
     if(this->userName != "")
