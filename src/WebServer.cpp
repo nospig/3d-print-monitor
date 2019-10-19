@@ -26,7 +26,7 @@ static const char NAV_BAR[] PROGMEM =
     "<a class='nav-link' href='weatherSettings.html'>Weather</a>"
     "</li>"
     "<li class='nav-item'>"
-    "<a class='nav-link' href='printMonitorSettings.html'>OctoPrint Monitor</a>"
+    "<a class='nav-link' href='printMonitorSettings.html'>Printers</a>"
     "</li>"
     "<li class='nav-item'>"
     "<a class='nav-link' href='screenGrab.html'>Screengrab</a>"
