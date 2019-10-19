@@ -18,4 +18,6 @@ void setupDisplay();
 void settingsChangedCallback();
 void printerDeletedCallback();
 
+int getNextPrinter(int currentPrinter);
+
 #endif // _print_monitor_h

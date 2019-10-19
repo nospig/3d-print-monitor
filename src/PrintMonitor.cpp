@@ -24,7 +24,6 @@ OpenWeatherMapCurrent currentWeatherClient;
 SettingsManager settingsManager;
 DNSServer dns;
 OctoPrintMonitor octoPrintMonitor;
-int currentDisplay;
 int currentPrinter;
 
 // tasks
@@ -181,15 +180,24 @@ void setupDisplay()
     switch(settingsManager.getCurrentDisplay())
     {
         case CYCLE_DISPLAY_SETTING:
+            display->setDisplayMode(DisplayMode_Weather);
+            currentPrinter = -1;
+            octoPrintUpdate.disable();
+            cycleDisplay.enableDelayed(10*SECONDS_MULT);    // TODO
+            break;
+
         case WEATHER_DISPLAY_SETTING:
             display->setDisplayMode(DisplayMode_Weather);
-            currentDisplay = 0;
+            currentPrinter = -1;
             octoPrintUpdate.disable();
+            cycleDisplay.disable();
             break;
+
         default:
             int printerId = settingsManager.getCurrentDisplay() - 1;
             currentPrinter = printerId;
             octoPrintUpdate.enableIfNot();
+            cycleDisplay.disable();
 
             display->setDisplayMode(DisplayMode_PrintMonitor);
             break;
@@ -200,7 +208,59 @@ void setupDisplay()
 
 void cycleDisplayCallback()
 {
+    int nextPrinter;
 
+    Serial.println("Cycle display");
+
+    nextPrinter = getNextPrinter(currentPrinter);
+    if(nextPrinter != -1)
+    {
+        currentPrinter = nextPrinter;
+        octoPrintUpdate.enableIfNot();
+        octoPrintUpdate.forceNextIteration();
+        display->setDisplayMode(DisplayMode_PrintMonitor);
+    }
+    else
+    {
+        // back to weather
+        if(currentPrinter != -1)
+        {
+            display->setDisplayMode(DisplayMode_Weather);
+            currentPrinter = nextPrinter;
+            octoPrintUpdate.disable();
+            display->drawCurrentWeather(currentWeatherClient.getCurrentData(), settingsManager.getWeatherEnabled());
+        }
+    }
+}
+
+int getNextPrinter(int currentPrinter)
+{
+    int startingPrinter;
+    int foundPrinter = -1;
+
+    // -1 means find first printer
+    if(currentPrinter == -1)
+    {
+        startingPrinter = 0;
+    }
+    else
+    {
+        startingPrinter = currentPrinter + 1;
+    }
+    
+    for(int i=startingPrinter; i<settingsManager.getNumPrinters() && foundPrinter == -1; i++)
+    {
+        OctoPrinterData* printerData = settingsManager.getPrinterData(i);
+        if(printerData->enabled)
+        {
+            foundPrinter = i;
+        }
+    }
+
+Serial.print("foundPrinter: ");
+Serial.println(foundPrinter);
+
+    return foundPrinter;
 }
 
 // basic setup and loop

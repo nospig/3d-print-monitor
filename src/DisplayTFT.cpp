@@ -56,7 +56,7 @@ void DisplayTFT::drawIPAddress(String ipAddress)
     tft->setTextColor(TFT_WHITE, BACKGROUND_COLOUR); 
    
     tft->setTextDatum(BC_DATUM);
-    sprintf(buffer, "IP Adresss: %s", ipAddress.c_str());
+    sprintf(buffer, "IP Address: %s", ipAddress.c_str());
     tft->drawString(buffer, tft->width()/2, 40); 
 }
 
@@ -67,9 +67,7 @@ void DisplayTFT::setDisplayMode(DisplayMode mode)
     showingPrintInfo = false;
     showingNoPrintInfo = false;
 
-    // do display changing logic, going to assume for now in main display mode
-    // caller responsible for updating all elements after making this call
-    tft->fillScreen(BACKGROUND_COLOUR);
+    tft->fillRect(0, 0, tft->width(), TIME_Y - 1, BACKGROUND_COLOUR);
 }
 
 void DisplayTFT::drawCurrentTime(unsigned long epochTime)
