@@ -210,8 +210,6 @@ void cycleDisplayCallback()
 {
     int nextPrinter;
 
-    Serial.println("Cycle display");
-
     nextPrinter = getNextPrinter(currentPrinter);
     if(nextPrinter != -1)
     {
@@ -256,9 +254,6 @@ int getNextPrinter(int currentPrinter)
             foundPrinter = i;
         }
     }
-
-Serial.print("foundPrinter: ");
-Serial.println(foundPrinter);
 
     return foundPrinter;
 }

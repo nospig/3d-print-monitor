@@ -83,9 +83,9 @@ void SettingsManager::loadSettings()
     jsonSettings.close();
     
     // testing
-    Serial.println();
-    serializeJson(doc, Serial);
-    Serial.println();
+    //Serial.println();
+    //serializeJson(doc, Serial);
+    //Serial.println();
 
     loadPrinters();
 }
@@ -115,9 +115,9 @@ void SettingsManager::loadPrinters()
         printerSettings.close();
 
         // testing
-        Serial.println();
-        serializeJson(doc, Serial);
-        Serial.println();        
+        //Serial.println();
+        //serializeJson(doc, Serial);
+        //Serial.println();        
     }
 }
 
@@ -151,8 +151,8 @@ void SettingsManager::saveSettings()
     }
     
     // testing
-    serializeJson(doc, Serial); 
-    Serial.println();
+    //serializeJson(doc, Serial); 
+    //Serial.println();
 
     savePrinters();
 }
@@ -184,8 +184,8 @@ void SettingsManager::savePrinters()
             printerSettings.close();
 
             // testing
-            serializeJson(doc, Serial); 
-            Serial.println();
+            //serializeJson(doc, Serial); 
+            //Serial.println();
         }
         else
         {
