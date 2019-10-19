@@ -16,5 +16,6 @@ void setupOtaUpdates();
 void setupDisplay();
 
 void settingsChangedCallback();
+void printerDeletedCallback();
 
 #endif // _print_monitor_h

@@ -96,12 +96,14 @@ class SettingsManager
         void setCurrentDisplay(int currentDisplay);
 
         void setSettingsChangedCallback(void(* callback)());
+        void setPrinterDeletedCallback(void(* callback)());
 
     private:
         SettingsData data;
         OctoPrinterData* printersData[MAX_PRINTERS];
 
         void (* settingsChangedCallback)();
+        void (* printerDeletedCallback)();
 
         void loadSettings();
         void saveSettings();

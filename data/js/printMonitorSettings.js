@@ -33,7 +33,8 @@ $(function () {
 
         e.preventDefault();
         $tr = $(this).closest('tr');
-        $.confirmModal('Are you sure you want to delete this printer: ' + $('.display-name', $tr).text() + '?' , options, function (el) {
+        $.confirmModal('Are you sure you want to delete this printer: ' + $('.display-name', $tr).text() + '?' + '<br>Deleting a printer will reset your display settings.', 
+                options, function (el) {
             window.location.href = "/deletePrinter.html?printerId=" + $('.printer-id', $tr).text();
         });
     });

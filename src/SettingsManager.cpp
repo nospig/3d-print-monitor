@@ -13,6 +13,7 @@ const int SETTINGS_JSON_SIZE = 768;
 void SettingsManager::init()
 {
     settingsChangedCallback = nullptr;
+    printerDeletedCallback = nullptr;
 
     data.numPrinters = 0;
 
@@ -356,6 +357,10 @@ void SettingsManager::deletePrinter(int printerNum)
     }
     data.numPrinters--;
 
+    if(printerDeletedCallback != nullptr)
+    {
+        printerDeletedCallback();
+    }
     updateSettings();
 }
 
@@ -428,3 +433,7 @@ void SettingsManager::setSettingsChangedCallback(void (* callback)())
     settingsChangedCallback = callback;
 }
 
+void SettingsManager::setPrinterDeletedCallback(void(* callback)())
+{
+    printerDeletedCallback = callback;
+}

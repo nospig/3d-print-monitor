@@ -66,6 +66,7 @@ void updatePrinterMonitorCallback()
 
     if(printerData->enabled)
     {
+        octoPrintMonitor.setCurrentPrinter(printerData->address, printerData->port, printerData->apiKey, printerData->username, printerData->password);
         octoPrintMonitor.update();
     }
     
@@ -99,6 +100,7 @@ void connectWifiCallback()
 
     currentWeatherClient.setMetric(settingsManager.getDisplayMetric());
     settingsManager.setSettingsChangedCallback(settingsChangedCallback);
+    settingsManager.setPrinterDeletedCallback(printerDeletedCallback);
     delay(WIFI_CONNECTING_DELAY);
 
     taskScheduler.addTask(getTime);
@@ -153,6 +155,15 @@ void settingsChangedCallback()
     octoPrintUpdate.forceNextIteration();
 }
 
+void printerDeletedCallback()
+{
+    settingsManager.setSettingsChangedCallback(nullptr);
+
+    settingsManager.setCurrentDisplay(WEATHER_DISPLAY_SETTING);
+
+    settingsManager.setSettingsChangedCallback(settingsChangedCallback);
+}
+
 // screen grabs
 
 void checkScreenGrabCallback()
@@ -178,9 +189,7 @@ void setupDisplay()
             break;
         default:
             int printerId = settingsManager.getCurrentDisplay() - 1;
-            OctoPrinterData* printerData = settingsManager.getPrinterData(printerId);
             currentPrinter = printerId;
-            octoPrintMonitor.setCurrentPrinter(printerData->address, printerData->port, printerData->apiKey, printerData->username, printerData->password);
             octoPrintUpdate.enableIfNot();
 
             display->setDisplayMode(DisplayMode_PrintMonitor);
