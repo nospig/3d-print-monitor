@@ -95,22 +95,13 @@ class SettingsManager
         int getCurrentDisplay();
         void setCurrentDisplay(int currentDisplay);
 
-        bool getSettingsChanged();
-        void resetSettingsChanged();
-
-        bool getPrintersChanged();
-        void resetPrintersChanged();
-
-        bool getDisplaySettingChanged();
-        void resetDisplaySettingChanged();
+        void setSettingsChangedCallback(void(* callback)());
 
     private:
         SettingsData data;
-        bool settingsChanged;
-        bool printersChanged;
-        bool displaySettingChanged;
-
         OctoPrinterData* printersData[MAX_PRINTERS];
+
+        void (* settingsChangedCallback)();
 
         void loadSettings();
         void saveSettings();

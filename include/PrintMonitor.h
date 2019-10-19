@@ -8,10 +8,13 @@ void connectWifiCallback();
 void getTimeCallback();
 void getCurrentWeatherCallback();
 void updateWifiStrengthCallback();
-void checkSettingsChangedCallback();
 void checkScreenGrabCallback();
 void updatePrinterMonitorCallback();
+void cycleDisplayCallback();
 
 void setupOtaUpdates();
+void setupDisplay();
+
+void settingsChangedCallback();
 
 #endif // _print_monitor_h

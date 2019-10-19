@@ -97,7 +97,6 @@ class DisplayTFT : public DisplayBase
         void setDisplayBrightness(int percent);
         
     private:
-        void drawStaticElements();
         int drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather, int y);
         void drawDetailedCurrentWeather(OpenWeatherMapCurrentData* currentWeather, int y);
         void drawWeatherNotEnabled();
@@ -105,7 +104,7 @@ class DisplayTFT : public DisplayBase
         void drawTimeDisplay(unsigned long epochTime, int y);
 
         void drawInvalidPrintData(String printerName);
-        void drawOctoPrintNotEnabled();
+        void drawPrinterNotEnabled(String printerName);
         void drawPrintInfo(OctoPrintMonitorData* printData, String printerName);
         void drawTempArc(String title, float value, float target, float max, int x, int y);
         String getPrintInfoTitle(String printerName, uint16_t flags);

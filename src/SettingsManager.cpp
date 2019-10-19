@@ -12,8 +12,7 @@ const int SETTINGS_JSON_SIZE = 768;
 
 void SettingsManager::init()
 {
-    printersChanged = false;
-    displaySettingChanged = false;
+    settingsChangedCallback = nullptr;
 
     data.numPrinters = 0;
 
@@ -33,8 +32,6 @@ void SettingsManager::init()
     }
     
     loadSettings();
-
-    settingsChanged = false;
 }
 
 void SettingsManager::resetSettings()
@@ -58,7 +55,6 @@ void SettingsManager::resetSettings()
     data.currentDisplay = 0;
 
     saveSettings();
-    settingsChanged = true;
 }
 
 void SettingsManager::loadSettings()
@@ -207,7 +203,10 @@ void SettingsManager::savePrinters()
 void SettingsManager::updateSettings()
 {
     saveSettings();
-    settingsChanged = true;
+    if(settingsChangedCallback != nullptr)
+    {
+        settingsChangedCallback();
+    }
 }
 
 String SettingsManager::getOpenWeatherApiKey()
@@ -331,8 +330,6 @@ void SettingsManager::addNewPrinter(String address, int port, String userName, S
     newPrinter->enabled = enabled;
     data.numPrinters++;
 
-    printersChanged = true;
-
     updateSettings();
 }
 
@@ -348,8 +345,6 @@ void SettingsManager::editPrinter(int printerNum, String address, int port, Stri
     printer->displayName = displayName;
     printer->enabled = enabled;
 
-    printersChanged = true;
-
     updateSettings();
 }
 
@@ -360,8 +355,6 @@ void SettingsManager::deletePrinter(int printerNum)
         printersData[i] = printersData[i + 1];
     }
     data.numPrinters--;
-
-    printersChanged = true;
 
     updateSettings();
 }
@@ -426,39 +419,12 @@ void SettingsManager::setCurrentDisplay(int currentDisplay)
     if(data.currentDisplay != currentDisplay)
     {
         data.currentDisplay = currentDisplay;
-        displaySettingChanged = true;
         updateSettings();
     }
 }
 
-bool SettingsManager::getSettingsChanged()
+void SettingsManager::setSettingsChangedCallback(void (* callback)())
 {
-    return settingsChanged;
+    settingsChangedCallback = callback;
 }
-
-void SettingsManager::resetSettingsChanged()
-{
-    settingsChanged = false;
-}
-
-bool SettingsManager::getPrintersChanged()
-{
-    return printersChanged;
-}
-
-void SettingsManager::resetPrintersChanged()
-{
-    printersChanged = false;
-}
-
-bool SettingsManager::getDisplaySettingChanged()
-{
-    return displaySettingChanged;
-}
-
-void SettingsManager::resetDisplaySettingChanged()
-{
-    displaySettingChanged = false;
-}
-
 

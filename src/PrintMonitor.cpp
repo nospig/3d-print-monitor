@@ -24,15 +24,17 @@ OpenWeatherMapCurrent currentWeatherClient;
 SettingsManager settingsManager;
 DNSServer dns;
 OctoPrintMonitor octoPrintMonitor;
+int currentDisplay;
+int currentPrinter;
 
 // tasks
 Task connectWifi(0, TASK_ONCE, &connectWifiCallback);
 Task getTime(TIME_FETCH_INTERVAL, TASK_FOREVER, &getTimeCallback);
 Task getCurrentWeather(60*SECONDS_MULT, TASK_FOREVER, &getCurrentWeatherCallback);
 Task updateWiFiStrength(WIFI_STRENGTH_INTERVAL, TASK_FOREVER, &updateWifiStrengthCallback);
-Task checkSettingsChanged(SETTINGS_CHANGED_INTERVAL, TASK_FOREVER, &checkSettingsChangedCallback);
 Task checkScreenGrabRequested(SCREENGRAB_INTERVAL, TASK_FOREVER, &checkScreenGrabCallback);
 Task octoPrintUpdate(5*MINUTES_MULT, TASK_FOREVER, &updatePrinterMonitorCallback);
+Task cycleDisplay(10*SECONDS_MULT, TASK_FOREVER, &cycleDisplayCallback);        // TIMING TODO
 
 // task callbacks
 
@@ -60,13 +62,17 @@ void getCurrentWeatherCallback()
 
 void updatePrinterMonitorCallback()
 {
-    if(settingsManager.getOctoPrintEnabled())
+    OctoPrinterData* printerData = settingsManager.getPrinterData(currentPrinter);
+
+    if(printerData->enabled)
     {
         octoPrintMonitor.update();
     }
     
-    //display->drawOctoPrintStatus(octoPrintMonitor.getCurrentData(), settingsManager.getOctoPrintDisplayName(), settingsManager.getOctoPrintEnabled());
+    display->drawOctoPrintStatus(octoPrintMonitor.getCurrentData(), printerData->displayName, printerData->enabled);
     webServer.updatePrintMonitorInfo(octoPrintMonitor.getCurrentData(), settingsManager.getOctoPrintEnabled());
+
+    Serial.println("updatePrinterMonitorCallback");
 }
 
 // wifi
@@ -89,35 +95,33 @@ void connectWifiCallback()
 
     webServer.init(&settingsManager);
 
-    //octoPrintMonitor.init(settingsManager.getOctoPrintAddress(), settingsManager.getOctoPrintPort(), 
-//                          settingsManager.getOctoPrintAPIKey(), settingsManager.getOctoPrintUsername(), settingsManager.getOctoPrintPassword());
     timeClient.setTimeOffset(settingsManager.getUtcOffset());
 
     currentWeatherClient.setMetric(settingsManager.getDisplayMetric());
-
+    settingsManager.setSettingsChangedCallback(settingsChangedCallback);
     delay(WIFI_CONNECTING_DELAY);
-    display->setDisplayMode(settingsManager.getDisplayMode());
-    display->setDisplayBrightness(settingsManager.getDisplayBrightness());
-    display->startMainDisplay();
-    display->drawIPAddress(WiFi.localIP().toString());
 
     taskScheduler.addTask(getTime);
     taskScheduler.addTask(getCurrentWeather);
     taskScheduler.addTask(updateWiFiStrength);
-    taskScheduler.addTask(checkSettingsChanged);
     taskScheduler.addTask(checkScreenGrabRequested);
     taskScheduler.addTask(octoPrintUpdate);
+    taskScheduler.addTask(cycleDisplay);
 
     // timings
     getCurrentWeather.setInterval(settingsManager.getCurrentWeatherInterval());
     octoPrintUpdate.setInterval(settingsManager.getPrintMonitorInterval());
 
     getTime.enable();
-    getCurrentWeather.enable();
+    getCurrentWeather.enable();     // TODO
     updateWiFiStrength.enable();
-    checkSettingsChanged.enable();
     checkScreenGrabRequested.enable();
-    octoPrintUpdate.enable();
+    cycleDisplay.disable();
+
+    setupDisplay();
+    display->setDisplayBrightness(settingsManager.getDisplayBrightness());
+    display->startMainDisplay();
+    display->drawIPAddress(WiFi.localIP().toString());
 }
 
 void updateWifiStrengthCallback()
@@ -128,33 +132,25 @@ void updateWifiStrengthCallback()
 
 // settings
 
-void checkSettingsChangedCallback()
+void settingsChangedCallback()
 {
-    if(settingsManager.getSettingsChanged())
-    {
-        settingsManager.resetSettingsChanged();
+    timeClient.setTimeOffset(settingsManager.getUtcOffset());
+    currentWeatherClient.setMetric(settingsManager.getDisplayMetric());
 
-        timeClient.setTimeOffset(settingsManager.getUtcOffset());
+    // best just to force a display clear when changing settings
+    //display->setDisplayMode(settingsManager.getDisplayMode());
+    display->setDisplayBrightness(settingsManager.getDisplayBrightness());
+    display->setDisplayMetric(settingsManager.getDisplayMetric());
+    display->restartMainDisplay();
+    setupDisplay();
 
-        currentWeatherClient.setMetric(settingsManager.getDisplayMetric());
+    getCurrentWeather.setInterval(settingsManager.getCurrentWeatherInterval());
+    octoPrintUpdate.setInterval(settingsManager.getPrintMonitorInterval());
 
-        //octoPrintMonitor.updateSettings(settingsManager.getOctoPrintAddress(), settingsManager.getOctoPrintPort(), 
-                                        //settingsManager.getOctoPrintAPIKey(), settingsManager.getOctoPrintUsername(), settingsManager.getOctoPrintPassword());
-
-        // best just to force a display clear when changing settings
-        display->setDisplayMode(settingsManager.getDisplayMode());
-        display->setDisplayBrightness(settingsManager.getDisplayBrightness());
-        display->setDisplayMetric(settingsManager.getDisplayMetric());
-        display->restartMainDisplay();
-
-        getCurrentWeather.setInterval(settingsManager.getCurrentWeatherInterval());
-        octoPrintUpdate.setInterval(settingsManager.getPrintMonitorInterval());
-
-        getTime.forceNextIteration();
-        getCurrentWeather.forceNextIteration();
-        updateWiFiStrength.forceNextIteration();
-        octoPrintUpdate.forceNextIteration();
-    }
+    getTime.forceNextIteration();
+    getCurrentWeather.forceNextIteration();
+    updateWiFiStrength.forceNextIteration();
+    octoPrintUpdate.forceNextIteration();
 }
 
 // screen grabs
@@ -168,6 +164,36 @@ void checkScreenGrabCallback()
     }
 }
 
+// display handling
+
+void setupDisplay()
+{
+    switch(settingsManager.getCurrentDisplay())
+    {
+        case CYCLE_DISPLAY_SETTING:
+        case WEATHER_DISPLAY_SETTING:
+            display->setDisplayMode(DisplayMode_Weather);
+            currentDisplay = 0;
+            octoPrintUpdate.disable();
+            break;
+        default:
+            int printerId = settingsManager.getCurrentDisplay() - 1;
+            OctoPrinterData* printerData = settingsManager.getPrinterData(printerId);
+            currentPrinter = printerId;
+            octoPrintMonitor.setCurrentPrinter(printerData->address, printerData->port, printerData->apiKey, printerData->username, printerData->password);
+            octoPrintUpdate.enableIfNot();
+
+            display->setDisplayMode(DisplayMode_PrintMonitor);
+            break;
+    }
+}
+
+// display cycling
+
+void cycleDisplayCallback()
+{
+
+}
 
 // basic setup and loop
 

@@ -7,13 +7,13 @@
 const int JOB_DECODE_SIZE   = 1024;   // TODO
 const int PRINT_DECODE_SIZE = 2048;   // TODO
 
-
+/*
 void OctoPrintMonitor::init(String server, int port, String apiKey, String userName, String password)
 {
     updateSettings(server, port, apiKey, userName, password);
 }
-
-void OctoPrintMonitor::updateSettings(String server, int port, String apiKey, String userName, String password)
+*/
+void OctoPrintMonitor::setCurrentPrinter(String server, int port, String apiKey, String userName, String password)
 {
     this->apiKey = apiKey;
     this->server = server;

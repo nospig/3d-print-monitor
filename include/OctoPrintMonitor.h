@@ -46,8 +46,8 @@ typedef struct OctoPrintMonitorData
 class OctoPrintMonitor
 {
     public:
-        void init(String server, int port, String apiKey, String userName, String password);
-        void updateSettings(String server, int port, String apiKey, String userName, String password);
+        //void init(String server, int port, String apiKey, String userName, String password);
+        void setCurrentPrinter(String server, int port, String apiKey, String userName, String password);
         void update();
         OctoPrintMonitorData* getCurrentData() { return &data; }
 
