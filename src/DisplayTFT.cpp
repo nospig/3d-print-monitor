@@ -43,7 +43,7 @@ void DisplayTFT::drawStartupDisplay()
     tft->drawString("Connecting.", tft->width()/2, tft->height()/2);
 }
 
-void DisplayTFT::startMainDisplay()
+void DisplayTFT::clearDisplay()
 {
     tft->fillScreen(BACKGROUND_COLOUR);
 }
@@ -58,11 +58,6 @@ void DisplayTFT::drawIPAddress(String ipAddress)
     tft->setTextDatum(BC_DATUM);
     sprintf(buffer, "IP Adresss: %s", ipAddress.c_str());
     tft->drawString(buffer, tft->width()/2, 40); 
-}
-
-void DisplayTFT::restartMainDisplay()
-{
-    startMainDisplay();
 }
 
 void DisplayTFT::setDisplayMode(DisplayMode mode)

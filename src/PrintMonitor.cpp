@@ -122,7 +122,7 @@ void connectWifiCallback()
 
     setupDisplay();
     display->setDisplayBrightness(settingsManager.getDisplayBrightness());
-    display->startMainDisplay();
+    display->clearDisplay();
     display->drawIPAddress(WiFi.localIP().toString());
 }
 
@@ -140,10 +140,9 @@ void settingsChangedCallback()
     currentWeatherClient.setMetric(settingsManager.getDisplayMetric());
 
     // best just to force a display clear when changing settings
-    //display->setDisplayMode(settingsManager.getDisplayMode());
     display->setDisplayBrightness(settingsManager.getDisplayBrightness());
     display->setDisplayMetric(settingsManager.getDisplayMetric());
-    display->restartMainDisplay();
+    display->clearDisplay();
     setupDisplay();
 
     getCurrentWeather.setInterval(settingsManager.getCurrentWeatherInterval());

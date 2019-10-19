@@ -83,9 +83,8 @@ class DisplayTFT : public DisplayBase
         DisplayTFT();
 
         void drawStartupDisplay();
-        void startMainDisplay();
+        void clearDisplay();
         void drawIPAddress(String ipAddress);
-        void restartMainDisplay();
 
         void drawCurrentTime(unsigned long epochTime);
         void drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather, bool enabled);
