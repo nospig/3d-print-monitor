@@ -80,7 +80,6 @@ class SettingsManager
 
         int getNumPrinters();
         OctoPrinterData* getPrinterData(int printerNum);
-        void setPrinterData(int printerNum, String address, int port, String userName, String password, String apiKey, String displayName);
         void addNewPrinter(String address, int port, String userName, String password, String apiKey, String displayName, bool enabled);
         void editPrinter(int printerNum, String address, int port, String userName, String password, String apiKey, String displayName, bool enabled);
         void deletePrinter(int printerNum);
@@ -99,9 +98,17 @@ class SettingsManager
         bool getSettingsChanged();
         void resetSettingsChanged();
 
+        bool getPrintersChanged();
+        void resetPrintersChanged();
+
+        bool getDisplaySettingChanged();
+        void resetDisplaySettingChanged();
+
     private:
         SettingsData data;
         bool settingsChanged;
+        bool printersChanged;
+        bool displaySettingChanged;
 
         OctoPrinterData* printersData[MAX_PRINTERS];
 

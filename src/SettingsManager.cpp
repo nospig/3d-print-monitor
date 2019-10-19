@@ -12,6 +12,9 @@ const int SETTINGS_JSON_SIZE = 768;
 
 void SettingsManager::init()
 {
+    printersChanged = false;
+    displaySettingChanged = false;
+
     data.numPrinters = 0;
 
     for(int i=0; i<MAX_PRINTERS; i++)
@@ -315,18 +318,6 @@ OctoPrinterData* SettingsManager::getPrinterData(int printerNum)
     return printersData[printerNum];
 }
 
-void SettingsManager::setPrinterData(int printerNum, String address, int port, String userName, String password, String apiKey, String displayName)
-{
-    OctoPrinterData* data = printersData[printerNum];
-
-    data->address = address;
-    data->port = port;
-    data->username = userName;
-    data->password = password;
-    data->apiKey = apiKey;
-    data->displayName = displayName;
-}
-
 void SettingsManager::addNewPrinter(String address, int port, String userName, String password, String apiKey, String displayName, bool enabled)
 {
     OctoPrinterData* newPrinter = printersData[data.numPrinters];
@@ -339,6 +330,9 @@ void SettingsManager::addNewPrinter(String address, int port, String userName, S
     newPrinter->displayName = displayName;
     newPrinter->enabled = enabled;
     data.numPrinters++;
+
+    printersChanged = true;
+
     updateSettings();
 }
 
@@ -354,6 +348,8 @@ void SettingsManager::editPrinter(int printerNum, String address, int port, Stri
     printer->displayName = displayName;
     printer->enabled = enabled;
 
+    printersChanged = true;
+
     updateSettings();
 }
 
@@ -364,6 +360,9 @@ void SettingsManager::deletePrinter(int printerNum)
         printersData[i] = printersData[i + 1];
     }
     data.numPrinters--;
+
+    printersChanged = true;
+
     updateSettings();
 }
 
@@ -427,6 +426,7 @@ void SettingsManager::setCurrentDisplay(int currentDisplay)
     if(data.currentDisplay != currentDisplay)
     {
         data.currentDisplay = currentDisplay;
+        displaySettingChanged = true;
         updateSettings();
     }
 }
@@ -440,4 +440,25 @@ void SettingsManager::resetSettingsChanged()
 {
     settingsChanged = false;
 }
+
+bool SettingsManager::getPrintersChanged()
+{
+    return printersChanged;
+}
+
+void SettingsManager::resetPrintersChanged()
+{
+    printersChanged = false;
+}
+
+bool SettingsManager::getDisplaySettingChanged()
+{
+    return displaySettingChanged;
+}
+
+void SettingsManager::resetDisplaySettingChanged()
+{
+    displaySettingChanged = false;
+}
+
 
