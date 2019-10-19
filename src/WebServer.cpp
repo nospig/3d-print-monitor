@@ -287,6 +287,10 @@ String WebServer::tokenProcessor(const String& token)
     {
         return String(settingsManager->getPrintMonitorInterval() / SECONDS_MULT);
     }
+    if(token == "DISPLAYCYCLEINTERVAL")    
+    {
+        return String(settingsManager->getDisplayCycleInterval() / SECONDS_MULT);
+    }
     if(token == "UTCOFFSET")
     {
         return String(settingsManager->getUtcOffset() / 3600.0f);
@@ -475,7 +479,11 @@ void WebServer::handleUpdateTimings(AsyncWebServerRequest* request)
         AsyncWebParameter* p = request->getParam("printMonitorInterval");
         settingsManager->setPrintMonitorInterval(p->value().toInt() * SECONDS_MULT);
     }
-    
+    if(request->hasParam("displayCycleInterval"))
+    {
+        AsyncWebParameter* p = request->getParam("displayCycleInterval");
+        settingsManager->setDisplayCycleInterval(p->value().toInt() * SECONDS_MULT);
+    }    
 }
 
 void WebServer::handleUpdateClockSettings(AsyncWebServerRequest* request)

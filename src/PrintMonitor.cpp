@@ -33,7 +33,7 @@ Task getCurrentWeather(60*SECONDS_MULT, TASK_FOREVER, &getCurrentWeatherCallback
 Task updateWiFiStrength(WIFI_STRENGTH_INTERVAL, TASK_FOREVER, &updateWifiStrengthCallback);
 Task checkScreenGrabRequested(SCREENGRAB_INTERVAL, TASK_FOREVER, &checkScreenGrabCallback);
 Task octoPrintUpdate(5*MINUTES_MULT, TASK_FOREVER, &updatePrinterMonitorCallback);
-Task cycleDisplay(10*SECONDS_MULT, TASK_FOREVER, &cycleDisplayCallback);        // TIMING TODO
+Task cycleDisplay(30*SECONDS_MULT, TASK_FOREVER, &cycleDisplayCallback);     
 
 // task callbacks
 
@@ -112,6 +112,7 @@ void connectWifiCallback()
     // timings
     getCurrentWeather.setInterval(settingsManager.getCurrentWeatherInterval());
     octoPrintUpdate.setInterval(settingsManager.getPrintMonitorInterval());
+    cycleDisplay.setInterval(settingsManager.getDisplayCycleInterval());
 
     getTime.enable();
     getCurrentWeather.enable();     // TODO
@@ -146,6 +147,7 @@ void settingsChangedCallback()
 
     getCurrentWeather.setInterval(settingsManager.getCurrentWeatherInterval());
     octoPrintUpdate.setInterval(settingsManager.getPrintMonitorInterval());
+    cycleDisplay.setInterval(settingsManager.getDisplayCycleInterval());
 
     getTime.forceNextIteration();
     getCurrentWeather.forceNextIteration();
@@ -181,7 +183,7 @@ void setupDisplay()
     {
         return; // TODO
     }
-    
+
     switch(settingsManager.getCurrentDisplay())
     {
         case CYCLE_DISPLAY_SETTING:

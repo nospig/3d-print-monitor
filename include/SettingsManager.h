@@ -21,6 +21,7 @@ typedef struct SettingsData
 
     int currentWeatherInterval;
     int printMonitorInterval;
+    int displayCycleInterval;
 
     String octoPrintAddress;
     int octoPrintPort;
@@ -72,6 +73,9 @@ class SettingsManager
         
         int getPrintMonitorInterval();
         void setPrintMonitorInterval(int interval);
+
+        int getDisplayCycleInterval();
+        void setDisplayCycleInterval(int interval);
 
         int getNumPrinters();
         OctoPrinterData* getPrinterData(int printerNum);

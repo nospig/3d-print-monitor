@@ -5,6 +5,7 @@
 
 const int CURRENT_WEATHER_INTERVAL      = 10 * MINUTES_MULT;
 const int PRINT_MONITOR_INERVAL         = 30 * SECONDS_MULT;
+const int DISPLAY_CYCLE_INERVAL         = 30 * SECONDS_MULT;
 
 // TODO, calculate sizes
 const int PRINTER_JSON_SIZE  = 512;           
@@ -46,6 +47,7 @@ void SettingsManager::resetSettings()
 
     data.currentWeatherInterval = CURRENT_WEATHER_INTERVAL;
     data.printMonitorInterval = PRINT_MONITOR_INERVAL;
+    data.displayCycleInterval = DISPLAY_CYCLE_INERVAL;
 
     data.numPrinters = 0;
 
@@ -73,6 +75,7 @@ void SettingsManager::loadSettings()
 
     data.currentWeatherInterval = doc["CurrentWeatherInterval"];
     data.printMonitorInterval = doc["PrinterMonitorInterval"];
+    data.displayCycleInterval = doc["DisplayCycleInterval"];
 
     data.numPrinters = doc["PrinterCount"];
 
@@ -133,6 +136,7 @@ void SettingsManager::saveSettings()
     doc["DisplayMetric"] = data.displayMetric;
     doc["CurrentWeatherInterval"] = data.currentWeatherInterval;
     doc["PrinterMonitorInterval"] = data.printMonitorInterval;
+    doc["DisplayCycleInterval"] = data.displayCycleInterval;
     doc["utcOffset"] = data.utcOffsetSeconds;
 
     doc["PrinterCount"] = data.numPrinters;
@@ -283,6 +287,20 @@ void SettingsManager::setPrintMonitorInterval(int interval)
     if(data.printMonitorInterval != interval)
     {
         data.printMonitorInterval = interval;
+        updateSettings();
+    }
+}
+
+int SettingsManager::getDisplayCycleInterval()
+{
+    return data.displayCycleInterval;
+}
+
+void SettingsManager::setDisplayCycleInterval(int interval)
+{
+    if(data.displayCycleInterval != interval)
+    {
+        data.displayCycleInterval = interval;
         updateSettings();
     }
 }
