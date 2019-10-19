@@ -39,7 +39,7 @@ void SettingsManager::resetSettings()
 {
     data.openWeatherMapAPIKey = "";
     data.openWeatherLocationID = "";
-    data.weatherEnabled = true;
+    data.weatherEnabled = false;
 
     data.displayBrightness = 100;
     data.displayMetric = true;
