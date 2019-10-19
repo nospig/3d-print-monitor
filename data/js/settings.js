@@ -1,3 +1,23 @@
+function init()
+{
+    if ($('#displayCycleMode').is(":checked")) {
+        $("#chooseDisplayForm").hide();
+    }
+    else {
+        $("#chooseDisplayForm").show();
+    }
+
+    $("#displayCycleMode").click(function () {
+        if ($(this).is(":checked")) {
+            $("#chooseDisplayForm").hide();
+        }
+        else {
+            $("#chooseDisplayForm").find('input:radio:nth(0)').prop('checked', true);
+            $("#chooseDisplayForm").show();
+        }
+    });
+}
+
 $(function () {
     $('.confirmResetSettings').click(function (e) {
         var options = {
@@ -27,3 +47,5 @@ $(function () {
         });
     });
 });
+
+window.addEventListener("load", init, false);

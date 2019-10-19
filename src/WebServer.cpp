@@ -159,10 +159,10 @@ void WebServer::init(SettingsManager* settingsManager)
 //        request->send_P(200, "application/javascript", weatherSettings_js);
 //    });
 
-    server.on("/js/settings.js", HTTP_GET, [](AsyncWebServerRequest *request)
-    {
-        request->send_P(200, "application/javascript", settings_js);
-    });
+//    server.on("/js/settings.js", HTTP_GET, [](AsyncWebServerRequest *request)
+//    {
+//        request->send_P(200, "application/javascript", settings_js);
+//    });
     
     server.on("/js/station.js", HTTP_GET, [](AsyncWebServerRequest *request)
     {
@@ -339,6 +339,13 @@ String WebServer::tokenProcessor(const String& token)
             return "Checked";
         }
     }    
+    if(token == "DISPLAYCYCLEMODE")
+    {
+        if(settingsManager->getCurrentDisplay() == CYCLE_DISPLAY_SETTING)
+        {
+            return "Checked";
+        }
+    }    
 
     return String();
 }
@@ -375,11 +382,11 @@ String WebServer::createDisplayList()
     int currentDisplay = settingsManager->getCurrentDisplay();
     String checked = "";
 
-    if(currentDisplay == 0)
+    if(currentDisplay == WEATHER_DISPLAY_SETTING)
     {
         checked = "checked";
     }
-    response += createDisplayButton(0, checked, "Current Weather");
+    response += createDisplayButton(WEATHER_DISPLAY_SETTING, checked, "Current Weather");
     
     for(int i=0; i<numPrinters; i++)
     {
@@ -417,7 +424,6 @@ String WebServer::createDisplayButton(int id, String checked, String title)
     return button;
 }
 
-
 void WebServer::handleUpdateWeatherSettings(AsyncWebServerRequest* request)
 {
     if(request->hasParam("openWeatherLocation"))
@@ -450,7 +456,11 @@ void WebServer::handleUpdateWeatherSettings(AsyncWebServerRequest* request)
 
 void WebServer::handleUpdateDisplaySettings(AsyncWebServerRequest* request)
 {
-    if(request->hasParam("optdisplay"))
+    if(request->hasParam("displayCycleMode"))
+    {
+        settingsManager->setCurrentDisplay(CYCLE_DISPLAY_SETTING);
+    }
+    else if(request->hasParam("optdisplay"))
     {
         AsyncWebParameter* p = request->getParam("optdisplay");
         

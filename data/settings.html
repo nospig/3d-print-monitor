@@ -28,11 +28,22 @@
                     <tr>
                         <td>
                             <form action="/updateDisplaySettings.html">
-                                %DISPLAYTABLE%
-                                <div class="form-group">
-                                    <label for="displayBrighness">Display brightness</label>
-                                        <input type="range" class="custom-range" id="displayBrighness" name="brightness" min="0" max="100" value="%BRIGHTNESS%">
+                                <div class="form-check form-group">
+                                    <label class="form-check-label" for="check1">
+                                        <input type="checkbox" class="form-check-input" id="displayCycleMode" name="displayCycleMode" 
+                                            %DISPLAYCYCLEMODE%>Cycle through weather and printers
+                                    </label>
                                 </div>
+                                <div id="chooseDisplayForm">
+                                    <hr/>
+                                    %DISPLAYTABLE%
+                                </div>
+                                <hr/>
+                                <div class="form-group">
+                                        <label for="displayBrighness">Display brightness</label>
+                                        <input type="range" class="custom-range" id="displayBrighness" name="brightness" min="0" max="100"
+                                            value="%BRIGHTNESS%">
+                                    </div>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </td>

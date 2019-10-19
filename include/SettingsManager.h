@@ -7,6 +7,9 @@
 
 const String SETTINGS_FILE_NAME = "/Settings.json";
 
+#define WEATHER_DISPLAY_SETTING 0
+#define CYCLE_DISPLAY_SETTING   -1
+
 typedef struct SettingsData
 {
     String openWeatherMapAPIKey;
