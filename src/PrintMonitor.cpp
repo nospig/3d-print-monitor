@@ -177,6 +177,11 @@ void checkScreenGrabCallback()
 
 void setupDisplay()
 {
+    if(settingsManager.getWeatherEnabled() == false && settingsManager.getNumPrinters() == 0)
+    {
+        return; // TODO
+    }
+    
     switch(settingsManager.getCurrentDisplay())
     {
         case CYCLE_DISPLAY_SETTING:
