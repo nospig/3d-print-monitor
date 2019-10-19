@@ -341,7 +341,7 @@ String WebServer::createPrinterList()
         char buffer[256];
         OctoPrinterData* data = settingsManager->getPrinterData(i);
         const char deleteButton[] = "<button type='button' class='btn btn-danger mr-2 confirmDeletePrinter'>Delete</button>";
-        const char editButton[] = "<button type='button' class='btn btn-primary mr-2' data-toggle='modal' data-target='#editPrinterModal'>Edit</button>";
+        const char editButton[] = "<button type='button' class='btn btn-primary mr-2' data-toggle='modal' data-backdrop='static' data-target='#editPrinterModal'>Edit</button>";
         const char enabledBox[] = "<td><input type='checkbox' disabled checked></td>";
         const char disabledBox[] = "<td><input type='checkbox' disabled></td>";
         const char *checkbox;
