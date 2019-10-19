@@ -277,6 +277,8 @@ void setup()
 
     currentWeatherClient.setLanguage("en");
 
+    WiFi.hostname("OctoPrint-Monitor");
+
     taskScheduler.startNow(); 
     taskScheduler.addTask(connectWifi);
     connectWifi.enable();
