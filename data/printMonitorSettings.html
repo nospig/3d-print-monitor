@@ -32,7 +32,7 @@
                     %PRINTERTABLE%
                 </tbody>
             </table>
-            <button type="button" class="btn btn-primary" %ADDPRINTERENABLED% data-toggle="modal" data-target="#addPrinterModal">Add Printer</button>
+            <button type="button" class="btn btn-primary" %ADDPRINTERENABLED% data-toggle="modal" data-backdrop='static' data-target="#addPrinterModal">Add Printer</button>
         </div>
 
         <!-- Add printer modal -->
@@ -76,12 +76,9 @@
                                     <input type="checkbox" class="form-check-input" id="printerEnabled" name="printerEnabled" value="Enabled" Checked>Enabled
                                 </label>
                             </div>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary float-right">Add</button>
                         </form>
-                    </div>
-                     <!-- Modal footer -->
-                    <div class="modal-footer">
                     </div>
                 </div>
             </div>
@@ -129,12 +126,9 @@
                                     <input type="checkbox" class="form-check-input" id="editEnabled" name="editEnabled" value="Enabled">Enabled
                                 </label>
                             </div>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary float-right">Save</button>
                         </form>
-                    </div>
-                     <!-- Modal footer -->
-                    <div class="modal-footer">
                     </div>
                 </div>
             </div>
