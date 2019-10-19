@@ -273,21 +273,7 @@ String WebServer::tokenProcessor(const String& token)
     {
         return settingsManager->getOpenWeatherApiKey();
     }
-    if(token == "DISPLAY1CHECKED")
-    {
-        if(settingsManager->getDisplayMode() == DisplayMode_Weather)
-        {
-            return "Checked";
-        }
-    }
-    if(token == "DISPLAY2CHECKED")
-    {
-        if(settingsManager->getDisplayMode() == DisplayMode_PrintMonitor)
-        {
-            return "Checked";
-        }
-    }
-     if(token == "DISPLAYMETRIC")
+    if(token == "DISPLAYMETRIC")
     {
         if(settingsManager->getDisplayMetric())
         {

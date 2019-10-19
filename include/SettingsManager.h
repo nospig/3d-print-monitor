@@ -16,7 +16,6 @@ typedef struct SettingsData
     String openWeatherLocationID;
     bool weatherEnabled;
 
-    DisplayMode dispayMode;
     int displayBrightness;
     bool displayMetric;
 
@@ -64,9 +63,6 @@ class SettingsManager
 
         void setWeatherEnabled(bool enabled);
         bool getWeatherEnabled();
-
-        DisplayMode getDisplayMode();
-        void setDisplayMode(DisplayMode displayMode);
 
         bool getDisplayMetric();
         void setDisplayMetric(bool metric);

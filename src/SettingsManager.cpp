@@ -8,7 +8,7 @@ const int PRINT_MONITOR_INERVAL         = 30 * SECONDS_MULT;
 
 // TODO, calculate sizes
 const int PRINTER_JSON_SIZE  = 512;           
-const int SETTINGS_JSON_SIZE = 768;
+const int SETTINGS_JSON_SIZE = 512;
 
 void SettingsManager::init()
 {
@@ -41,7 +41,6 @@ void SettingsManager::resetSettings()
     data.openWeatherLocationID = "";
     data.weatherEnabled = true;
 
-    data.dispayMode = DisplayMode_Weather;
     data.displayBrightness = 100;
     data.displayMetric = true;
 
@@ -69,8 +68,6 @@ void SettingsManager::loadSettings()
     data.openWeatherLocationID = (const char*)doc["WeatherLLocationID"];
     data.weatherEnabled = doc["WeatherEnabled"];
 
-    int mode = doc["DisplayMode"];
-    data.dispayMode = (DisplayMode)mode;
     data.displayBrightness = doc["DisplayBrightness"];
     data.displayMetric = doc["DisplayMetric"];
 
@@ -132,7 +129,6 @@ void SettingsManager::saveSettings()
     doc["WeatherAPIKey"] = data.openWeatherMapAPIKey;
     doc["WeatherLLocationID"] = data.openWeatherLocationID;
     doc["WeatherEnabled"] = data.weatherEnabled;
-    doc["DisplayMode"] = (int)data.dispayMode;
     doc["DisplayBrightness"] = data.displayBrightness;
     doc["DisplayMetric"] = data.displayMetric;
     doc["CurrentWeatherInterval"] = data.currentWeatherInterval;
@@ -247,20 +243,6 @@ void SettingsManager::setWeatherEnabled(bool enabled)
 bool SettingsManager::getWeatherEnabled()
 {
     return data.weatherEnabled;
-}
-
-DisplayMode SettingsManager::getDisplayMode()
-{
-    return data.dispayMode;
-}
-
-void SettingsManager::setDisplayMode(DisplayMode displayMode)
-{
-    if(displayMode != data.dispayMode)
-    {
-        data.dispayMode = displayMode;
-        updateSettings();
-    }
 }
 
 bool SettingsManager::getDisplayMetric()
