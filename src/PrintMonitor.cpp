@@ -189,7 +189,7 @@ void setupDisplay()
             display->setDisplayMode(DisplayMode_Weather);
             currentPrinter = -1;
             octoPrintUpdate.disable();
-            cycleDisplay.enableDelayed(10*SECONDS_MULT);    // TODO
+            cycleDisplay.enableDelayed(settingsManager.getDisplayCycleInterval());    
             break;
 
         case WEATHER_DISPLAY_SETTING:
