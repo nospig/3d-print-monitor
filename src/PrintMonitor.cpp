@@ -42,7 +42,7 @@ Task cycleDisplay(30*SECONDS_MULT, TASK_FOREVER, &cycleDisplayCallback);
 void getTimeCallback()
 {
     timeClient.update();
-    display->drawCurrentTime(timeClient.getEpochTime(), settingsManager.getClockFormat(), settingsManager.getDateFormat());
+    display->drawCurrentTime(timeClient.getEpochTime());
 }
 
 // weather
@@ -85,6 +85,8 @@ void connectWifiCallback()
 
     display->setDisplayBrightness(settingsManager.getDisplayBrightness());
     display->setDisplayMetric(settingsManager.getDisplayMetric());
+    display->setClockFormat(settingsManager.getClockFormat());
+    display->setDateFormat(settingsManager.getDateFormat());
     display->drawStartupDisplay();
 
     wifiManager.autoConnect("3D Print Monitor");
@@ -140,6 +142,8 @@ void settingsChangedCallback()
     // best just to force a display clear when changing settings
     display->setDisplayBrightness(settingsManager.getDisplayBrightness());
     display->setDisplayMetric(settingsManager.getDisplayMetric());
+    display->setClockFormat(settingsManager.getClockFormat());
+    display->setDateFormat(settingsManager.getDateFormat());
     display->clearDisplay();
     setupDisplay();
 

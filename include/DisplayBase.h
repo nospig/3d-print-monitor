@@ -31,7 +31,7 @@ class DisplayBase
         virtual void drawStartupDisplay() {};
         virtual void clearDisplay() {};
 
-        virtual void drawCurrentTime(unsigned long epochTime, ClockFormat clockFormat, DateFormat dateFormat) {};        
+        virtual void drawCurrentTime(unsigned long epochTime) {};        
         virtual void drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather, bool enabled) {};
         virtual void drawWiFiStrength(long dBm) {};
         virtual void drawOctoPrintStatus(OctoPrintMonitorData* printData, String printerName, bool enabled) {};
@@ -43,9 +43,18 @@ class DisplayBase
 
         void setDisplayMetric(bool metric) { displayMetric = metric; }
         bool getDisplayMetric() { return displayMetric; }
+        void setClockFormat(ClockFormat clockFormat) { this->clockFormat = clockFormat; }
+        void setDateFormat(DateFormat dateFormat) { this->dateFormat = dateFormat; }
+        ClockFormat getClockFormat() { return clockFormat; }
+        DateFormat getDateFormat() { return dateFormat; }
+
     private:
+        
         DisplayMode displayMode = DisplayMode_Weather;
         bool displayMetric = true;
+        ClockFormat clockFormat;
+        DateFormat dateFormat;
+
 };
 
 

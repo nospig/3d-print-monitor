@@ -87,7 +87,7 @@ class DisplayTFT : public DisplayBase
 
         void drawStartupDisplay();
         void clearDisplay();
-        void drawCurrentTime(unsigned long epochTime, ClockFormat clockFormat, DateFormat dateFormat);
+        void drawCurrentTime(unsigned long epochTime);
         void drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather, bool enabled);
         void drawWiFiStrength(long dBm);
         void drawOctoPrintStatus(OctoPrintMonitorData* printData, String printerName, bool enabled);    
@@ -101,7 +101,8 @@ class DisplayTFT : public DisplayBase
         void drawDetailedCurrentWeather(OpenWeatherMapCurrentData* currentWeather, int y);
         void drawWeatherNotEnabled();
         const unsigned short* getIconData(String iconId);
-        void drawTimeDisplay(unsigned long epochTime, ClockFormat clockFormat, DateFormat dateFormat, int y);
+        void drawTimeDisplay(unsigned long epochTime, int y);
+        void formatClockString(char* buffer, tm* timeInfo);
 
         void drawInvalidPrintData(String printerName);
         void drawPrinterNotEnabled(String printerName);
