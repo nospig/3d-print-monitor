@@ -67,6 +67,26 @@
                                     <label for="utcOffset">Offset from UTC in hours</label>
                                     <input type="number" class="form-control" id="utcOffset" value="%UTCOFFSET%" placeholder="UTC offset" name="utcOffset" maxlength="12">
                                 </div>
+                                <hr/>
+                                <div class="form-group">
+                                    <label>Clock format</label>
+                                    <div class="form-check">                                        
+                                        <input type="radio" class="form-check-input" id="24hour" name="optTimeFormat" value="24hour" %TIME1CHECKED%>24 hour                                    
+                                    </div>
+                                    <div class="form-check">                                
+                                        <input type="radio" class="form-check-input" id="ampm" name="optTimeFormat" value="ampm" %TIME2CHECKED%>AM / PM                                    
+                                    </div>                  
+                                </div>                  
+                                <hr/>
+                                <div class="form-group">
+                                    <label>Date format</label>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="ddmmyy" name="optClockFormat" value="ddmmyy" %DATE1CHECKED%>DD/MM/YY                                    
+                                    </div>
+                                    <div class="form-check">                                
+                                        <input type="radio" class="form-check-input" id="mmddyy" name="optClockFormat" value="mmddyy" %DATE2CHECKED%>MM/DD/YY                                    
+                                    </div>                  
+                                </div>                  
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </td>

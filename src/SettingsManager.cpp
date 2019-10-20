@@ -17,6 +17,8 @@ void SettingsManager::init()
     printerDeletedCallback = nullptr;
 
     data.numPrinters = 0;
+    data.clockFormat = ClockFormat_AmPm;
+    data.dateFormat = DateFormat_MMDDYY;
 
     for(int i=0; i<MAX_PRINTERS; i++)
     {
@@ -52,6 +54,8 @@ void SettingsManager::resetSettings()
     data.numPrinters = 0;
 
     data.utcOffsetSeconds = 0;
+    data.clockFormat = ClockFormat_AmPm;
+    data.dateFormat = DateFormat_MMDDYY;
 
     data.currentDisplay = 0;
 
@@ -80,6 +84,10 @@ void SettingsManager::loadSettings()
     data.numPrinters = doc["PrinterCount"];
 
     data.utcOffsetSeconds = doc["utcOffset"];
+    int clock = doc["ClockFormat"];
+    data.clockFormat = (ClockFormat)clock;
+    int date = doc["DateFormat"];
+    data.dateFormat = (DateFormat)date;
 
     data.currentDisplay = doc["CurrentDisplay"];
 
@@ -138,6 +146,8 @@ void SettingsManager::saveSettings()
     doc["PrinterMonitorInterval"] = data.printMonitorInterval;
     doc["DisplayCycleInterval"] = data.displayCycleInterval;
     doc["utcOffset"] = data.utcOffsetSeconds;
+    doc["ClockFormat"] = (int)data.clockFormat;
+    doc["DateFormat"] = (int)data.dateFormat;
 
     doc["PrinterCount"] = data.numPrinters;
     doc["CurrentDisplay"] = data.currentDisplay;
@@ -407,6 +417,34 @@ void SettingsManager::setCurrentDisplay(int currentDisplay)
     if(data.currentDisplay != currentDisplay)
     {
         data.currentDisplay = currentDisplay;
+        updateSettings();
+    }
+}
+
+ClockFormat SettingsManager::getClockFormat()
+{
+    return data.clockFormat;
+}
+
+void SettingsManager::setClockFormat(ClockFormat clockFormat)
+{
+    if(data.clockFormat != clockFormat)
+    {
+        data.clockFormat = clockFormat;
+        updateSettings();
+    }
+}
+
+DateFormat SettingsManager::getDateFormat()
+{
+    return data.dateFormat;
+}
+
+void SettingsManager::setDateFormat(DateFormat dateFormat)
+{
+    if(data.dateFormat != dateFormat)
+    {
+        data.dateFormat = dateFormat;
         updateSettings();
     }
 }

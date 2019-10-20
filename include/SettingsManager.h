@@ -10,6 +10,18 @@ const String SETTINGS_FILE_NAME = "/Settings.json";
 #define WEATHER_DISPLAY_SETTING 0
 #define CYCLE_DISPLAY_SETTING   -1
 
+enum ClockFormat
+{
+    ClockFormat_24h,       
+    ClockFormat_AmPm,  
+};
+
+enum DateFormat
+{
+    DateFormat_DDMMYY,       
+    DateFormat_MMDDYY,  
+};
+
 typedef struct SettingsData
 {
     String openWeatherMapAPIKey;
@@ -33,6 +45,8 @@ typedef struct SettingsData
     int numPrinters;
 
     long utcOffsetSeconds;
+    ClockFormat clockFormat;
+    DateFormat dateFormat;
 
     int currentDisplay;
 
@@ -91,6 +105,12 @@ class SettingsManager
 
         int getCurrentDisplay();
         void setCurrentDisplay(int currentDisplay);
+
+        ClockFormat getClockFormat();
+        void setClockFormat(ClockFormat clockFormat);
+
+        DateFormat getDateFormat();
+        void setDateFormat(DateFormat dateFormat);
 
         void setSettingsChangedCallback(void(* callback)());
         void setPrinterDeletedCallback(void(* callback)());

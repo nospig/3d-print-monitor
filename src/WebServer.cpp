@@ -64,8 +64,8 @@ void WebServer::init(SettingsManager* settingsManager)
 
     server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest *request)
     {
-        request->send_P(200, "text/html", settings_html, tokenProcessor);
-        //request->send(SPIFFS, "/settings.html", String(), false, tokenProcessor);
+        //request->send_P(200, "text/html", settings_html, tokenProcessor);
+        request->send(SPIFFS, "/settings.html", String(), false, tokenProcessor);
     });
 
     server.on("/weatherSettings.html", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -330,6 +330,34 @@ String WebServer::tokenProcessor(const String& token)
             return "Checked";
         }
     }    
+    if(token == "TIME1CHECKED")
+    {
+        if(settingsManager->getClockFormat() == ClockFormat_24h)
+        {
+            return "Checked";
+        }
+    }
+    if(token == "TIME2CHECKED")
+    {
+        if(settingsManager->getClockFormat() == ClockFormat_AmPm)
+        {
+            return "Checked";
+        }
+    }
+    if(token == "DATE1CHECKED")
+    {
+        if(settingsManager->getDateFormat() == DateFormat_DDMMYY)
+        {
+            return "Checked";
+        }
+    }
+    if(token == "DATE2CHECKED")
+    {
+        if(settingsManager->getDateFormat() == DateFormat_MMDDYY)
+        {
+            return "Checked";
+        }
+    }
 
     return String();
 }
@@ -494,6 +522,32 @@ void WebServer::handleUpdateClockSettings(AsyncWebServerRequest* request)
     {
         AsyncWebParameter* p = request->getParam("utcOffset");
         settingsManager->setUtcOffset(p->value().toFloat() * 3600.0f);
+    }
+    if(request->hasParam("optTimeFormat"))
+    {
+        AsyncWebParameter* p = request->getParam("optTimeFormat");
+        
+        if(p->value() == "24hour")
+        {
+            settingsManager->setClockFormat(ClockFormat_24h);
+        }
+        if(p->value() == "ampm")
+        {
+            settingsManager->setClockFormat(ClockFormat_AmPm);
+        }
+    }
+    if(request->hasParam("optClockFormat"))
+    {
+        AsyncWebParameter* p = request->getParam("optClockFormat");
+        
+        if(p->value() == "ddmmyy")
+        {
+            settingsManager->setDateFormat(DateFormat_DDMMYY);
+        }
+        if(p->value() == "mmddyy")
+        {
+            settingsManager->setDateFormat(DateFormat_MMDDYY);
+        }
     }
 }
 
