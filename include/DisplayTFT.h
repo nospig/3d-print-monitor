@@ -87,8 +87,6 @@ class DisplayTFT : public DisplayBase
 
         void drawStartupDisplay();
         void clearDisplay();
-        void drawIPAddress(String ipAddress);
-
         void drawCurrentTime(unsigned long epochTime, ClockFormat clockFormat, DateFormat dateFormat);
         void drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather, bool enabled);
         void drawWiFiStrength(long dBm);
@@ -107,6 +105,7 @@ class DisplayTFT : public DisplayBase
 
         void drawInvalidPrintData(String printerName);
         void drawPrinterNotEnabled(String printerName);
+        void drawNotSetupDisplay();
         void drawPrintInfo(OctoPrintMonitorData* printData, String printerName);
         void drawTempArc(String title, float value, float target, float max, int x, int y);
         String getPrintInfoTitle(String printerName, uint16_t flags);

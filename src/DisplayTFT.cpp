@@ -48,18 +48,6 @@ void DisplayTFT::clearDisplay()
     tft->fillScreen(BACKGROUND_COLOUR);
 }
 
-void DisplayTFT::drawIPAddress(String ipAddress)
-{
-    char buffer[64];
-
-    tft->setTextFont(2);
-    tft->setTextColor(TFT_WHITE, BACKGROUND_COLOUR); 
-   
-    tft->setTextDatum(BC_DATUM);
-    sprintf(buffer, "IP Address: %s", ipAddress.c_str());
-    tft->drawString(buffer, tft->width()/2, 40); 
-}
-
 void DisplayTFT::setDisplayMode(DisplayMode mode)
 {
     DisplayBase::setDisplayMode(mode);
@@ -68,6 +56,11 @@ void DisplayTFT::setDisplayMode(DisplayMode mode)
     showingNoPrintInfo = false;
 
     tft->fillRect(0, 0, tft->width(), TIME_Y - 1, BACKGROUND_COLOUR);
+
+    if(mode == DisplayMode_NotSetup)
+    {
+        drawNotSetupDisplay();
+    }
 }
 
 void DisplayTFT::drawCurrentTime(unsigned long epochTime, ClockFormat clockFormat, DateFormat dateFormat)
@@ -472,6 +465,22 @@ void DisplayTFT::drawPrinterNotEnabled(String printerName)
     tft->setTextFont(2);
     tft->setTextColor(PRINT_MONITOR_TEXT_COLOUR, BACKGROUND_COLOUR); 
     tft->drawString("Printer not enabled", tft->width()/2, tft->height()/4);   
+}
+
+void DisplayTFT::drawNotSetupDisplay()
+{
+    char buffer[64];
+    int y  = tft->height()/4;
+
+    tft->setTextDatum(MC_DATUM);
+    tft->setTextFont(2);
+    tft->setTextColor(PRINT_MONITOR_TEXT_COLOUR, BACKGROUND_COLOUR); 
+    tft->drawString("Enable weather or", tft->width()/2, y);   
+    y += tft->fontHeight();
+    tft->drawString("add a printer", tft->width()/2, y);  
+    y += tft->fontHeight() * 2;
+    sprintf(buffer, "IP Address: %s", WiFi.localIP().toString().c_str());
+    tft->drawString(buffer, tft->width()/2, y); 
 }
 
 void DisplayTFT::drawPrintInfo(OctoPrintMonitorData* printData, String printerName)

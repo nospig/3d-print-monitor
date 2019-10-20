@@ -120,10 +120,8 @@ void connectWifiCallback()
     checkScreenGrabRequested.enable();
     cycleDisplay.disable();
 
-    setupDisplay();
     display->setDisplayBrightness(settingsManager.getDisplayBrightness());
-    display->clearDisplay();
-    display->drawIPAddress(WiFi.localIP().toString());
+    setupDisplay();
 }
 
 void updateWifiStrengthCallback()
@@ -181,7 +179,8 @@ void setupDisplay()
 {
     if(settingsManager.getWeatherEnabled() == false && settingsManager.getNumPrinters() == 0)
     {
-        return; // TODO
+        display->setDisplayMode(DisplayMode_NotSetup);
+        return;
     }
 
     switch(settingsManager.getCurrentDisplay())

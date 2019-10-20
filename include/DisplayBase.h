@@ -8,6 +8,7 @@ enum DisplayMode
 {
     DisplayMode_Weather,        // detailed current
     DisplayMode_PrintMonitor,   // print monitor
+    DisplayMode_NotSetup,
 };
 
 enum ClockFormat
@@ -30,7 +31,6 @@ class DisplayBase
         virtual void drawStartupDisplay() {};
         virtual void clearDisplay() {};
 
-        virtual void drawIPAddress(String ipAddress);
         virtual void drawCurrentTime(unsigned long epochTime, ClockFormat clockFormat, DateFormat dateFormat) {};        
         virtual void drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather, bool enabled) {};
         virtual void drawWiFiStrength(long dBm) {};
