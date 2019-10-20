@@ -14,10 +14,10 @@ Clone from the master branch for a working version. The dev branch should be con
 * Creates an access point for connecting to any WiFi network.
 * 2.8" colour TFT for display. Should work with any size 320x240 display handled by the TFT library.
 * Uses a cheap ESP8266 board as the controller.
-* OctoPrint Monitor - monitor one 3D printer through Octoprint. (I'm planning to extend the code to allow multiple printers to be monitored)
-* 2 different display modes. All display modes show WiFi strength, clock with date and time and use colourful icons.
-  * Detailed current weather from OpenWeather.
-  * OctoPrint monitor mode.
+* OctoPrint Monitor - monitor up to ten 3D printers through Octoprint.
+* Different display modes. All display modes show WiFi strength, clock with date and time and use colourful icons.
+  * Display weather or a single printer.
+  * Cycle through weather (if enabled) and all enabled printers.
 * All settings controlled through a web interface.
 * Uses OpenWeather API for retrieving current weather.
 * Can perform screengrabs and send them to a Processing sketch over serial connection.
