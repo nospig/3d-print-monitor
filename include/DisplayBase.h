@@ -10,6 +10,18 @@ enum DisplayMode
     DisplayMode_PrintMonitor,   // print monitor
 };
 
+enum ClockFormat
+{
+    ClockFormat_24h,       
+    ClockFormat_AmPm,  
+};
+
+enum DateFormat
+{
+    DateFormat_DDMMYY,       
+    DateFormat_MMDDYY,  
+};
+
 class DisplayBase
 {
     public:
@@ -19,7 +31,7 @@ class DisplayBase
         virtual void clearDisplay() {};
 
         virtual void drawIPAddress(String ipAddress);
-        virtual void drawCurrentTime(unsigned long epochTime) {};        
+        virtual void drawCurrentTime(unsigned long epochTime, ClockFormat clockFormat, DateFormat dateFormat) {};        
         virtual void drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather, bool enabled) {};
         virtual void drawWiFiStrength(long dBm) {};
         virtual void drawOctoPrintStatus(OctoPrintMonitorData* printData, String printerName, bool enabled) {};

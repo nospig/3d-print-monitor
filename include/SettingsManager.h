@@ -10,18 +10,6 @@ const String SETTINGS_FILE_NAME = "/Settings.json";
 #define WEATHER_DISPLAY_SETTING 0
 #define CYCLE_DISPLAY_SETTING   -1
 
-enum ClockFormat
-{
-    ClockFormat_24h,       
-    ClockFormat_AmPm,  
-};
-
-enum DateFormat
-{
-    DateFormat_DDMMYY,       
-    DateFormat_MMDDYY,  
-};
-
 typedef struct SettingsData
 {
     String openWeatherMapAPIKey;

@@ -1,3 +1,6 @@
+#ifndef _display_tft_h
+#define _display_tft_h
+
 #include "DisplayBase.h"
 #include "SPI.h"
 #include "TFT_eSPI.h"
@@ -86,7 +89,7 @@ class DisplayTFT : public DisplayBase
         void clearDisplay();
         void drawIPAddress(String ipAddress);
 
-        void drawCurrentTime(unsigned long epochTime);
+        void drawCurrentTime(unsigned long epochTime, ClockFormat clockFormat, DateFormat dateFormat);
         void drawCurrentWeather(OpenWeatherMapCurrentData* currentWeather, bool enabled);
         void drawWiFiStrength(long dBm);
         void drawOctoPrintStatus(OctoPrintMonitorData* printData, String printerName, bool enabled);    
@@ -100,7 +103,7 @@ class DisplayTFT : public DisplayBase
         void drawDetailedCurrentWeather(OpenWeatherMapCurrentData* currentWeather, int y);
         void drawWeatherNotEnabled();
         const unsigned short* getIconData(String iconId);
-        void drawTimeDisplay(unsigned long epochTime, int y);
+        void drawTimeDisplay(unsigned long epochTime, ClockFormat clockFormat, DateFormat dateFormat, int y);
 
         void drawInvalidPrintData(String printerName);
         void drawPrinterNotEnabled(String printerName);
@@ -126,3 +129,5 @@ class DisplayTFT : public DisplayBase
         TFT_eSPI *tft;
         int brightness;
 };
+
+#endif // _display_tft_h

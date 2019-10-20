@@ -42,7 +42,7 @@ Task cycleDisplay(30*SECONDS_MULT, TASK_FOREVER, &cycleDisplayCallback);
 void getTimeCallback()
 {
     timeClient.update();
-    display->drawCurrentTime(timeClient.getEpochTime());
+    display->drawCurrentTime(timeClient.getEpochTime(), settingsManager.getClockFormat(), settingsManager.getDateFormat());
 }
 
 // weather
