@@ -177,7 +177,7 @@ void checkScreenGrabCallback()
 
 void setupDisplay()
 {
-    if(settingsManager.getWeatherEnabled() == false && settingsManager.getNumPrinters() == 0)
+    if(settingsManager.getWeatherEnabled() == false && settingsManager.getNumEnabledPrinters() == 0)
     {
         display->setDisplayMode(DisplayMode_NotSetup);
         return;
@@ -186,10 +186,21 @@ void setupDisplay()
     switch(settingsManager.getCurrentDisplay())
     {
         case CYCLE_DISPLAY_SETTING:
-            display->setDisplayMode(DisplayMode_Weather);
-            currentPrinter = -1;
-            octoPrintUpdate.disable();
-            cycleDisplay.enableDelayed(settingsManager.getDisplayCycleInterval());    
+            if(settingsManager.getWeatherEnabled())
+            {
+                display->setDisplayMode(DisplayMode_Weather);
+                currentPrinter = -1;
+                octoPrintUpdate.disable();
+                cycleDisplay.enableDelayed(settingsManager.getDisplayCycleInterval());    
+            }
+            else
+            {
+                currentPrinter = getNextPrinter(-1);
+                octoPrintUpdate.enableIfNot();
+                octoPrintUpdate.forceNextIteration();
+                display->setDisplayMode(DisplayMode_PrintMonitor);
+                cycleDisplay.enableDelayed(settingsManager.getDisplayCycleInterval());    
+            }            
             break;
 
         case WEATHER_DISPLAY_SETTING:
@@ -229,10 +240,18 @@ void cycleDisplayCallback()
         // back to weather
         if(currentPrinter != -1)
         {
-            display->setDisplayMode(DisplayMode_Weather);
-            currentPrinter = nextPrinter;
-            octoPrintUpdate.disable();
-            display->drawCurrentWeather(currentWeatherClient.getCurrentData(), settingsManager.getWeatherEnabled());
+            if(settingsManager.getWeatherEnabled())
+            {
+                display->setDisplayMode(DisplayMode_Weather);
+                currentPrinter = nextPrinter;
+                octoPrintUpdate.disable();
+                display->drawCurrentWeather(currentWeatherClient.getCurrentData(), settingsManager.getWeatherEnabled());
+            }
+            else
+            {
+                currentPrinter = -1;
+                cycleDisplayCallback();
+            }            
         }
     }
 }

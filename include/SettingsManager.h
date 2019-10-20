@@ -80,6 +80,7 @@ class SettingsManager
         void setDisplayCycleInterval(int interval);
 
         int getNumPrinters();
+        int getNumEnabledPrinters();
         OctoPrinterData* getPrinterData(int printerNum);
         void addNewPrinter(String address, int port, String userName, String password, String apiKey, String displayName, bool enabled);
         void editPrinter(int printerNum, String address, int port, String userName, String password, String apiKey, String displayName, bool enabled);

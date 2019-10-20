@@ -320,6 +320,21 @@ int SettingsManager::getNumPrinters()
     return data.numPrinters;
 }
 
+int SettingsManager::getNumEnabledPrinters()
+{
+    int count =0;
+
+    for(int i=0; i<data.numPrinters; i++)
+    {
+        OctoPrinterData* data = getPrinterData(i);
+        if(data->enabled)
+        {
+            count++;
+        }
+    }
+    return count;
+}
+
 OctoPrinterData* SettingsManager::getPrinterData(int printerNum)
 {
     return printersData[printerNum];
