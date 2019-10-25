@@ -633,7 +633,8 @@ void DisplayTFT::drawProgressBar(float percent, int x, int y, int width, int hei
     tft->setTextColor(PRINT_MONITOR_PROGRESS_COLOUR, BACKGROUND_COLOUR); 
     tft->setTextDatum(CR_DATUM);
     tft->setTextPadding(tft->textWidth("100%"));
-    sprintf(buffer, "%0.f%%", percent);
+
+    sprintf(buffer, "%d%%", (int)percent);
     tft->drawString(buffer, x, y + (height / 2));
 }
 

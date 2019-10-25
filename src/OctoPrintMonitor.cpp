@@ -7,12 +7,6 @@
 const int JOB_DECODE_SIZE   = 1024;   // TODO
 const int PRINT_DECODE_SIZE = 2048;   // TODO
 
-/*
-void OctoPrintMonitor::init(String server, int port, String apiKey, String userName, String password)
-{
-    updateSettings(server, port, apiKey, userName, password);
-}
-*/
 void OctoPrintMonitor::setCurrentPrinter(String server, int port, String apiKey, String userName, String password)
 {
     this->apiKey = apiKey;
@@ -39,8 +33,6 @@ void OctoPrintMonitor::updateJobStatus()
     {
         data.validJobData = true;
         deserialiseJob(result);
-
-        //Serial.println(result);
     }
     else
     {
@@ -59,8 +51,6 @@ void OctoPrintMonitor::updatePrinterStatus()
     {
         data.validPrintData = true;
         deserialisePrint(result);
-
-        //Serial.println(result);
     }
     else
     {
