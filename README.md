@@ -32,7 +32,7 @@ Clone from the master branch for a working version. The dev branch should be con
 ![Screenshot](devdata/Screenshots/MonitorSettings_1.jpg)
 ![Screenshot](devdata/Screenshots/MonitorSettings_2.jpg)
 
-## API
+## Weather API
 
 Uses the [OpenWeather](https://openweathermap.org/api) API for current conditions. You will need an API key and the ID of the location to display weather.
 
