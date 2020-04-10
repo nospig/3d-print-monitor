@@ -8,10 +8,10 @@ Clone from the master branch for a working version. The dev branch should be con
 
 ## Features
 
+* OctoPrint Monitor - monitor up to ten 3D printers at once through Octoprint.
 * Creates an access point for connecting to any WiFi network.
 * 2.8" colour TFT for display. Should work with any size 320x240 display handled by the TFT library.
 * Uses a cheap ESP8266 board as the controller.
-* OctoPrint Monitor - monitor up to ten 3D printers through Octoprint.
 * Different display modes. All display modes show WiFi strength, clock with date and time and use colourful icons.
   * Display weather or a single printer.
   * Cycle through weather (if enabled) and all enabled printers.
@@ -26,6 +26,11 @@ Clone from the master branch for a working version. The dev branch should be con
 ![Screenshot](devdata/Screenshots/screenshot_14447.png)
 ![Screenshot](devdata/Screenshots/screenshot_2024206.png)
 ![Screenshot](devdata/Screenshots/screenshot_2974628.png)
+
+## Example web interface
+
+![Screenshot](devdata/Screenshots/MonitorSettings_1.jpg)
+![Screenshot](devdata/Screenshots/MonitorSettings_2.jpg)
 
 ## API
 
@@ -89,10 +94,6 @@ Password protected OTA updates enabled. Set the MD5 hash of your prefered passwo
     upload_password = xxxxx
     
 Replace xxxxx with the plain text version of your MD5 hash set above. [MD5 Generator.](https://www.miraclesalad.com/webtools/md5.php)
-
-## OctoPrint Monitor
-
-OctoPrint monitor can monitor one 3D printer. Set up your OctoPrint host and API key on the OctoPrint Monitor settings page.
 
 ## Case
 
