@@ -202,10 +202,10 @@ void DisplayTFT::drawTimeDisplay(unsigned long epochTime, int y)
     switch(getDateFormat())
     {
         case DateFormat_DDMMYY:
-            sprintf(buffer, "%d/%d/%02d\n", timeInfo->tm_mday, timeInfo->tm_mon+1, (timeInfo->tm_year+1900) % 100);
+            sprintf(buffer, "%d/%d/%02d", timeInfo->tm_mday, timeInfo->tm_mon+1, (timeInfo->tm_year+1900) % 100);
             break;
         case DateFormat_MMDDYY:
-            sprintf(buffer, "%d/%d/%02d\n", timeInfo->tm_mon+1, timeInfo->tm_mday, (timeInfo->tm_year+1900) % 100);
+            sprintf(buffer, "%d/%d/%02d", timeInfo->tm_mon+1, timeInfo->tm_mday, (timeInfo->tm_year+1900) % 100);
             break;        
     }
     
@@ -734,7 +734,7 @@ void DisplayTFT::formatClockString(char* buffer, tm* timeInfo)
     switch(getClockFormat())
     {
         case ClockFormat_24h:
-            sprintf(buffer, "%02d:%02d\n", timeInfo->tm_hour, timeInfo->tm_min);
+            sprintf(buffer, "%02d:%02d", timeInfo->tm_hour, timeInfo->tm_min);
             break;
         case ClockFormat_AmPm:
             String termination = "am";
@@ -754,7 +754,7 @@ void DisplayTFT::formatClockString(char* buffer, tm* timeInfo)
                 hours -= 12;
                 termination = "pm";
             }
-            sprintf(buffer, "%d:%02d%s\n", hours, timeInfo->tm_min, termination.c_str());
+            sprintf(buffer, "%d:%02d%s", hours, timeInfo->tm_min, termination.c_str());
             break;
     }
 }
