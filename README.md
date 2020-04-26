@@ -97,7 +97,9 @@ Replace xxxxx with the plain text version of your MD5 hash set above. [MD5 Gener
 
 ## Case
 
-There isn't a custom case design yet. You can use any suitable 2.8" TFT D1 / NodeMCU case, many are available on ThingiVerse such as [2.4" & 2.8" TFT Desktop stand](https://www.thingiverse.com/thing:2172068)
+You can use any suitable 2.8" TFT D1 / NodeMCU case, many are available on ThingiVerse.
+My case can be found [here.](https://www.thingiverse.com/thing:4279448)
+
 
 ## Thanks
 
